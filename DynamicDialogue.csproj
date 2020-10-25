@@ -1,16 +1,37 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
-  <PropertyGroup>
-    <TargetFramework>netcoreapp3.1</TargetFramework>
-  </PropertyGroup>
+	<PropertyGroup>
+		<TargetFramework>netcoreapp3.1</TargetFramework>
+	</PropertyGroup>
 
-  <ItemGroup>
-    <Reference Include="UnityEditor">
-      <HintPath>..\..\..\Program Files\Unity\2020.1.4f1\Editor\Data\Managed\UnityEngine\UnityEditor.dll</HintPath>
-    </Reference>
-    <Reference Include="UnityEngine">
-      <HintPath>..\..\..\Program Files\Unity\2020.1.4f1\Editor\Data\Managed\UnityEngine\UnityEngine.dll</HintPath>
-    </Reference>
-  </ItemGroup>
+	<ItemGroup>
+		<PackageReference Include="Antlr4" Version="4.6.6">
+			<PrivateAssets>all</PrivateAssets>
+			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+		</PackageReference>
+		<PackageReference Include="Antlr4.CodeGenerator" Version="4.6.6">
+			<PrivateAssets>all</PrivateAssets>
+			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+		</PackageReference>
+		<PackageReference Include="Antlr4.Runtime" Version="4.6.6" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<Reference Include="UnityEditor">
+			<HintPath>..\..\..\Program Files\Unity\2020.1.4f1\Editor\Data\Managed\UnityEngine\UnityEditor.dll</HintPath>
+		</Reference>
+		<Reference Include="UnityEngine">
+			<HintPath>..\..\..\Program Files\Unity\2020.1.4f1\Editor\Data\Managed\UnityEngine\UnityEngine.dll</HintPath>
+		</Reference>
+	</ItemGroup>
+
+	<ItemGroup>
+		<Antlr4 Update="DynamicDialogue\Compiler\Talking.g4">
+		  <CustomToolNamespace>DynamicDialogue.Compiler</CustomToolNamespace>
+		</Antlr4>
+		<Antlr4 Update="DynamicDialogue\Compiler\Speak.g4">
+			<CustomToolNamespace>DynamicDialogue.Compiler</CustomToolNamespace>
+		</Antlr4>
+	</ItemGroup>
 
 </Project>
