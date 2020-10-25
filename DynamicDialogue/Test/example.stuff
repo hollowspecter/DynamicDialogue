@@ -1,0 +1,27 @@
+﻿Response SeeDog
+{
+	"that's a cute doggo"
+	"awww so cute!!!" // this is a comment
+	second line so awesome
+	"such a cutie!"
+}
+
+Response ThankYou
+{
+	"thank you so muchies"
+	"thanks!!!!"
+}
+
+Rule PersonA_SeesDog
+{
+	conditions	ConceptSeeDog DogSeen=0 @A
+	response	SeeDog
+	remember	Dog_Seen=1
+	trigger		@B CuteDog1
+}
+
+Rule PersonB_Thanks
+{
+	conditions ConceptAnswer CuteDog1 @B
+	response ThankYou
+}
