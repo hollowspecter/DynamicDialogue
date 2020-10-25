@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace DynamicDialogue
 {
@@ -12,6 +13,7 @@ namespace DynamicDialogue
 		void SetValue(string variableName, float floatValue);
 		void SetValue(string variableName, bool boolValue);
 		bool TryGetValue<T>(string variableName, out T result);
+		void GetAllValues(out IReadOnlyDictionary<string, object> values);
 		void Clear();
 	}
 
@@ -66,5 +68,10 @@ namespace DynamicDialogue
 			variables.Clear();
 		}
 
+		/// <inheritdoc/>
+		public void GetAllValues(out IReadOnlyDictionary<string, object> values)
+		{
+			values = variables;
+		}
 	}
 }
