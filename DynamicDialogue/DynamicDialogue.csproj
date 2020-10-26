@@ -26,10 +26,10 @@
 	</ItemGroup>
 
 	<ItemGroup>
-		<Antlr4 Update="DynamicDialogue\Compiler\Talking.g4">
+		<Antlr4 Update="Core\Compiler\Talking.g4">
 		  <CustomToolNamespace>DynamicDialogue.Compiler</CustomToolNamespace>
 		</Antlr4>
-		<Antlr4 Update="DynamicDialogue\Compiler\Speak.g4">
+		<Antlr4 Update="Core\Compiler\Speak.g4">
 			<CustomToolNamespace>DynamicDialogue.Compiler</CustomToolNamespace>
 		</Antlr4>
 	</ItemGroup>
