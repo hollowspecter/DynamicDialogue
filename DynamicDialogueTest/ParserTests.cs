@@ -44,7 +44,7 @@ namespace DynamicDialogueTest
 			Assert.That(ruleBody.rule_response().WORD().GetText(), Is.EqualTo("SeeDog"));
 			Assert.That(ruleBody.remember().equals_statement().Length, Is.EqualTo(1)); // REMEMBER and the one condition
 			Assert.That(ruleBody.trigger().WORD().GetText(), Is.EqualTo("CuteDog1"));
-			Assert.That(ruleBody.trigger().mention().GetText(), Is.EqualTo("@B"));
+			Assert.That(ruleBody.trigger().MENTION().GetText(), Is.EqualTo("@B"));
 		}
 
 		[Test]
@@ -72,14 +72,6 @@ namespace DynamicDialogueTest
 			var equalsStatement = talkingParser.talk().rule(0).rule_body().conditions().condition_statement(1).equals_statement();
 			Assert.That(equalsStatement.WORD(0).GetText(), Is.EqualTo("DogSeen"));
 			Assert.That(int.Parse(equalsStatement.NUMBER().GetText()), Is.EqualTo(0));
-		}
-
-		[Test]
-		public void TestMention()
-		{
-			var talkingParser = CreateParser(File.ReadAllText(dogTalkPath));
-			var mention = talkingParser.talk().rule(0).rule_body().trigger().mention();
-			Assert.That(mention.WORD().GetText(), Is.EqualTo("B"));
 		}
 
 		[Test]
