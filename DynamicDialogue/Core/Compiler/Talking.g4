@@ -10,23 +10,23 @@ rule : RULE WORD EXPRESSION_START rule_body EXPRESSION_END ;
 
 rule_body : conditions rule_response remember? trigger? ;
 
-conditions	: CONDITIONS condition_statement* NEWLINE;
+conditions	: CONDITIONS condition_statement*;
 
 condition_statement	: WORD | mention | equals_statement ;
 
 equals_statement : WORD OPERATOR_LOGICAL_EQUALS (NUMBER | WORD | TEXT) ;
 
-rule_response : RESPONSE WORD NEWLINE;
+rule_response : RESPONSE WORD;
 
-remember : equals_statement* ;
+remember : REMEMBER equals_statement* ;
 
-trigger : mention WORD ;
+trigger : TRIGGER mention WORD ;
 
 response : RESPONSE WORD EXPRESSION_START response_body EXPRESSION_END ;
 
 response_body : line+ ;
 
-line : TEXT NEWLINE ;
+line : TEXT ;
 
 mention : '@' WORD ;
 
@@ -44,7 +44,7 @@ fragment F	: ('F'|'f') ;
 fragment G	: ('G'|'g') ;
 fragment H	: ('H'|'h') ;
 fragment I	: ('I'|'i') ;
-fragment J	: ('J'|'J') ;
+fragment J	: ('J'|'j') ;
 fragment K	: ('K'|'k') ;
 fragment L	: ('L'|'l') ;
 fragment M	: ('M'|'m') ;
@@ -80,17 +80,18 @@ RESPONSE : R E S P O N S E ;
 
 CONDITIONS : C O N D I T I O N S ;
 
-REMEMBER : R E M B E M B E R ;
+REMEMBER : R E M E M B E R ;
 
 TRIGGER : T R I G G E R ;
 
-WORD : (LOWERCASE | UPPERCASE | '_')+ ;
+WORD : (LOWERCASE | UPPERCASE | '_' | DIGIT)+ ;
 
 // A run of text. Escaped quotes and backslashes are allowed.
 TEXT : '"' (~('"' | '\\' | '\r' | '\n') | '\\' ('"' | '\\'))* '"' ;
 
-WHITESPACE : (' '|'t')+ -> skip ;
+WHITESPACE : (' '|'\t')+ -> skip ;
 
 COMMENT : '//' ~('\r'|'\n')* -> skip;
 
-NEWLINE : ('r'? 'n' | 'r')+ ;
+NEWLINE : ('\r'? '\n' | '\r')+ -> skip ;
+
