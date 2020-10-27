@@ -2,6 +2,16 @@
 
 	<PropertyGroup>
 		<TargetFramework>netcoreapp3.1</TargetFramework>
+		<NoWarn>3021</NoWarn>
+		<Version>0.1.0</Version>
+		<Authors>Vivien Baguio</Authors>
+		<Company>Vivien Baguio</Company>
+		<PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
+		<GeneratePackageOnBuild>false</GeneratePackageOnBuild>
+		<PackageLicenseExpression>ANTI-CAPITALIST SOFTWARE LICENSE (v 1.4)</PackageLicenseExpression>
+		<RepositoryUrl>https://github.com/hollowspecter/DynamicDialogue</RepositoryUrl>
+		<Description>This is an attempt to write a dynamic dialogue like that is rule based like presented in this GDC Talk</Description>
+		<!--  '...' does not need a CLSCompliant attribute because the assembly does not have a CLSCompliant attribute -->
 	</PropertyGroup>
 
 	<ItemGroup>
@@ -17,20 +27,11 @@
 	</ItemGroup>
 
 	<ItemGroup>
-		<Reference Include="UnityEditor">
-			<HintPath>..\..\..\Program Files\Unity\2020.1.4f1\Editor\Data\Managed\UnityEngine\UnityEditor.dll</HintPath>
-		</Reference>
-		<Reference Include="UnityEngine">
-			<HintPath>..\..\..\Program Files\Unity\2020.1.4f1\Editor\Data\Managed\UnityEngine\UnityEngine.dll</HintPath>
-		</Reference>
-	</ItemGroup>
-
-	<ItemGroup>
 		<Antlr4 Update="Core\Compiler\TalkingLexer.g4">
-		  <CustomToolNamespace>DynamicDialogue.Compiler</CustomToolNamespace>
+			<CustomToolNamespace>DynamicDialogue.Compiler</CustomToolNamespace>
 		</Antlr4>
 		<Antlr4 Update="Core\Compiler\TalkingParser.g4">
-		  <CustomToolNamespace>DynamicDialogue.Compiler</CustomToolNamespace>
+			<CustomToolNamespace>DynamicDialogue.Compiler</CustomToolNamespace>
 		</Antlr4>
 	</ItemGroup>
 
