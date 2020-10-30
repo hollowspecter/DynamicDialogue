@@ -11,8 +11,8 @@ using System.Text;
 namespace DynamicDialogue.Compiler
 {
 	/// <summary>
-	/// TODO find out how this works?
 	/// Source: https://github.com/YarnSpinnerTool/YarnSpinner/blob/master/YarnSpinner.Compiler/ErrorListener.cs
+	/// Copyright (c) 2015-2017 Secret Lab Pty. Ltd. and Yarn Spinner contributors.
 	/// </summary>
 	internal sealed class LexerErrorListener : IAntlrErrorListener<int>
 	{

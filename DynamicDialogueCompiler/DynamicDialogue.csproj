@@ -6,7 +6,7 @@
 		<Version>0.1.0</Version>
 		<Authors>Vivien Baguio</Authors>
 		<Company>Vivien Baguio</Company>
-		<PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
+		<PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
 		<GeneratePackageOnBuild>false</GeneratePackageOnBuild>
 		<PackageLicenseExpression>ANTI-CAPITALIST SOFTWARE LICENSE (v 1.4)</PackageLicenseExpression>
 		<RepositoryUrl>https://github.com/hollowspecter/DynamicDialogue</RepositoryUrl>
@@ -27,10 +27,10 @@
 	</ItemGroup>
 
 	<ItemGroup>
-		<Antlr4 Update="Core\Compiler\TalkingLexer.g4">
+		<Antlr4 Update="Compiler\BarkLexer.g4">
 			<CustomToolNamespace>DynamicDialogue.Compiler</CustomToolNamespace>
 		</Antlr4>
-		<Antlr4 Update="Core\Compiler\TalkingParser.g4">
+		<Antlr4 Update="Compiler\BarkParser.g4">
 			<CustomToolNamespace>DynamicDialogue.Compiler</CustomToolNamespace>
 		</Antlr4>
 	</ItemGroup>

@@ -9,6 +9,7 @@ namespace DynamicDialogue.Compiler
 	/// An exception representing something going wrong during parsing.
 	/// 
 	/// Source: https://github.com/YarnSpinnerTool/YarnSpinner/blob/master/YarnSpinner.Compiler/ParseException.cs
+	/// Copyright (c) 2015-2017 Secret Lab Pty. Ltd. and Yarn Spinner contributors.
 	/// </summary>
 	[Serializable]
 	public sealed class ParseException : Exception

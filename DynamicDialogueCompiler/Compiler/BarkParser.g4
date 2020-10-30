@@ -1,4 +1,4 @@
-﻿parser grammar TalkingParser;
+﻿parser grammar BarkParser;
 
 options { tokenVocab=TalkingLexer; }
 

@@ -6,18 +6,18 @@ using System.IO;
 using DynamicDialogue.Compiler;
 using System.Diagnostics;
 
-namespace DynamicDialogueTest
+namespace DynamicDialogue.Test
 {
 	public class ParserTests
 	{
-		private string dogTalkPath = @"Data\dogTalk.talk";
+		private string dogTalkPath = @"Data\dogTalk.bark";
 
-		private TalkingParser CreateParser(string _text)
+		private BarkParser CreateParser(string _text)
 		{
 			AntlrInputStream inputStream = new AntlrInputStream(_text);
-			TalkingLexer lexer = new TalkingLexer(inputStream);
+			BarkLexer lexer = new BarkLexer(inputStream);
 			CommonTokenStream commonTokenStream = new CommonTokenStream(lexer);
-			TalkingParser parser = new TalkingParser(commonTokenStream);
+			BarkParser parser = new BarkParser(commonTokenStream);
 
 			//turning off the normal error listener and using ours
 			lexer.RemoveErrorListeners();
@@ -31,15 +31,15 @@ namespace DynamicDialogueTest
 		[Test]
 		public void TestTalk()
 		{
-			var talkingParser = CreateParser(File.ReadAllText(dogTalkPath));
-			Assert.That(talkingParser.talk().ChildCount, Is.EqualTo(4));
+			var parser = CreateParser(File.ReadAllText(dogTalkPath));
+			Assert.That(parser.talk().ChildCount, Is.EqualTo(4));
 		}
 
 		[Test]
 		public void TestRule()
 		{
-			var talkingParser = CreateParser(File.ReadAllText(dogTalkPath));
-			var ruleBody = talkingParser.talk().rule(0).rule_body();
+			var parser = CreateParser(File.ReadAllText(dogTalkPath));
+			var ruleBody = parser.talk().rule(0).rule_body();
 			Assert.That(ruleBody.conditions().condition_statement().Length, Is.EqualTo(3));
 			Assert.That(ruleBody.rule_response().WORD().GetText(), Is.EqualTo("SeeDog"));
 			Assert.That(ruleBody.remember().equals_statement().Length, Is.EqualTo(1)); // REMEMBER and the one condition
@@ -50,16 +50,16 @@ namespace DynamicDialogueTest
 		[Test]
 		public void TestRuleName()
 		{
-			var talkingParser = CreateParser(File.ReadAllText(dogTalkPath));
-			var rule = talkingParser.talk().rule(0);
+			var parser = CreateParser(File.ReadAllText(dogTalkPath));
+			var rule = parser.talk().rule(0);
 			Assert.AreEqual("PersonA_SeesDog", rule.WORD().GetText());
 		}
 
 		[Test]
 		public void TestConditionStatements()
 		{
-			var talkingParser = CreateParser(File.ReadAllText(dogTalkPath));
-			var conditions = talkingParser.talk().rule(0).rule_body().conditions();
+			var parser = CreateParser(File.ReadAllText(dogTalkPath));
+			var conditions = parser.talk().rule(0).rule_body().conditions();
 			Assert.That(conditions.condition_statement(0).GetText(), Is.EqualTo("ConceptSeeDog"));
 			Assert.That(conditions.condition_statement(1).GetText(), Is.EqualTo("DogSeen=0"));
 			Assert.That(conditions.condition_statement(2).GetText(), Is.EqualTo("@A"));
@@ -68,8 +68,8 @@ namespace DynamicDialogueTest
 		[Test]
 		public void TestEqualsStatement()
 		{
-			var talkingParser = CreateParser(File.ReadAllText(dogTalkPath));
-			var equalsStatement = talkingParser.talk().rule(0).rule_body().conditions().condition_statement(1).equals_statement();
+			var parser = CreateParser(File.ReadAllText(dogTalkPath));
+			var equalsStatement = parser.talk().rule(0).rule_body().conditions().condition_statement(1).equals_statement();
 			Assert.That(equalsStatement.WORD(0).GetText(), Is.EqualTo("DogSeen"));
 			Assert.That(int.Parse(equalsStatement.NUMBER().GetText()), Is.EqualTo(0));
 		}
@@ -77,16 +77,16 @@ namespace DynamicDialogueTest
 		[Test]
 		public void TestResponse()
 		{
-			var talkingParser = CreateParser(File.ReadAllText(dogTalkPath));
-			var firstResponse = talkingParser.talk().response(0).response_body();
+			var parser = CreateParser(File.ReadAllText(dogTalkPath));
+			var firstResponse = parser.talk().response(0).response_body();
 			Assert.That(firstResponse.ChildCount, Is.EqualTo(4));
 		}
 
 		[Test]
 		public void TestLine()
 		{
-			var talkingParser = CreateParser(File.ReadAllText(dogTalkPath));
-			var firstResponse = talkingParser.talk().response(0).response_body();
+			var parser = CreateParser(File.ReadAllText(dogTalkPath));
+			var firstResponse = parser.talk().response(0).response_body();
 			Assert.AreEqual("\"that's a cute doggo\"", firstResponse.line(0).TEXT().GetText());
 			Assert.AreEqual("\"awww so cute!!!\"", firstResponse.line(1).TEXT().GetText());
 		}

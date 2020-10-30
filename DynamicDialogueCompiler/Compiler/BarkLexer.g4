@@ -1,5 +1,4 @@
-﻿lexer grammar TalkingLexer;
-
+﻿lexer grammar BarkLexer;
 
 fragment A	: ('A'|'a') ;
 fragment B	: ('B'|'b') ;
