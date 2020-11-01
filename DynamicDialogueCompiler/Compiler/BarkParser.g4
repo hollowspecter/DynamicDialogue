@@ -1,6 +1,6 @@
 ﻿parser grammar BarkParser;
 
-options { tokenVocab=TalkingLexer; }
+options { tokenVocab=BarkLexer; }
 
 talk : (rule | response)+ ;
 
