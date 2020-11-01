@@ -81,8 +81,8 @@ namespace DynamicDialogue
 	{
 		public enum CompareMode
 		{
-			LESS_THAN,
-			GREATER_THAN,
+			EQUAL_OR_LESS_THAN,
+			EQUAL_OR_GREATER_THAN,
 			EQUAL_TO
 		}
 
@@ -96,10 +96,10 @@ namespace DynamicDialogue
 
 			switch (_mode)
 			{
-				case CompareMode.LESS_THAN:
+				case CompareMode.EQUAL_OR_LESS_THAN:
 					maxValue = _compareToValue;
 					break;
-				case CompareMode.GREATER_THAN:
+				case CompareMode.EQUAL_OR_GREATER_THAN:
 					minValue = _compareToValue;
 					break;
 				case CompareMode.EQUAL_TO:
