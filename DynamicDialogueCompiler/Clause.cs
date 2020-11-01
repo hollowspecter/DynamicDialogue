@@ -15,6 +15,24 @@ namespace DynamicDialogue
 	/// <summary>
 	/// TODO
 	/// </summary>
+	public class ExistsClause : Clause
+	{
+		private readonly string key;
+
+		public ExistsClause(string _key)
+		{
+			key = _key;
+		}
+
+		public override bool Check(IVariableStorage _storage)
+		{
+			return _storage.TryGetValue<object>(key, out _);
+		}
+	}
+
+	/// <summary>
+	/// TODO
+	/// </summary>
 	public class StringClause : Clause
 	{
 		private readonly string key;
@@ -39,7 +57,27 @@ namespace DynamicDialogue
 	/// <summary>
 	/// TODO
 	/// </summary>
-	public class ValueClause : Clause
+	public class BoolClause : Clause
+	{
+		private readonly string key;
+		private readonly bool compareValue;
+
+		public BoolClause(string _key, bool _compareValue)
+		{
+			key = _key;
+			compareValue = _compareValue;
+		}
+
+		public override bool Check(IVariableStorage _storage)
+		{
+			return _storage.TryGetValue(key, out bool result) && result == compareValue;
+		}
+	}
+
+	/// <summary>
+	/// TODO
+	/// </summary>
+	public class FloatClause : Clause
 	{
 		public enum CompareMode
 		{
@@ -52,7 +90,7 @@ namespace DynamicDialogue
 		private readonly float maxValue = float.MaxValue;
 		private readonly string key;
 
-		public ValueClause(string _key, CompareMode _mode, float _compareToValue)
+		public FloatClause(string _key, CompareMode _mode, float _compareToValue)
 		{
 			key = _key;
 

@@ -14,7 +14,7 @@ Response ThankYou
 
 Rule PersonA_SeesDog
 {
-	conditions	ConceptSeeDog DogSeen=0 @A
+	conditions	ConceptSeeDog DogSeen=0 Is=@A
 	response	SeeDog
 	remember	Dog_Seen=1
 	trigger		@B CuteDog1
@@ -22,6 +22,6 @@ Rule PersonA_SeesDog
 
 Rule PersonB_Thanks
 {
-	conditions ConceptAnswer CuteDog1 @B
+	conditions ConceptAnswer ConceptCuteDog1 Is=@B From=@A Dead=false
 	response ThankYou
 }

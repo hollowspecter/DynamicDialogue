@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Reflection.Metadata;
 using System.Text;
 
 namespace DynamicDialogue
@@ -20,19 +21,22 @@ namespace DynamicDialogue
 	{
 		private Dictionary<string, object> changes = new Dictionary<string, object>();
 
-		public void AddChange(string key, bool value)
+		public StorageChange AddChange(string key, bool value)
 		{
 			changes.Add(key, value);
+			return this;
 		}
 
-		public void AddChange(string key, float value)
+		public StorageChange AddChange(string key, float value)
 		{
 			changes.Add(key, value);
+			return this;
 		}
 
-		public void AddChange(string key, string value)
+		public StorageChange AddChange(string key, string value)
 		{
 			changes.Add(key, value);
+			return this;
 		}
 
 		public override void Execute(IVariableStorage storage)
@@ -54,26 +58,36 @@ namespace DynamicDialogue
 	/// </summary>
 	public class TextResponse : Consequence
 	{
-		private List<string> lines = new List<string>();
-		private Random random = new Random();
+		private string responseId;
 
-		public void AddLine(string _text)
+		public TextResponse(string _responseId)
 		{
-			lines.Add(_text);
+			responseId = _responseId;
 		}
 
-		private string GetRandomLine()
-		{
-			return lines[random.Next(0, lines.Count)];
-		}
-
-		/// <summary>
-		/// Should talk the line.
-		/// Maybe with events? Database with "Talkers" who will then "Talk()"?
-		/// </summary>
 		public override void Execute(IVariableStorage storage)
 		{
-			Trace.WriteLine(GetRandomLine());
+			Trace.WriteLine(responseId);
+		}
+	}
+
+	public class TriggerResponse : Consequence
+	{
+		private string from;
+		private string to;
+		private string conceptName;
+
+		public TriggerResponse(string _to, string _conceptName)
+		{
+			to = _to;
+			conceptName = _conceptName;
+		}
+
+		public override void Execute(IVariableStorage storage)
+		{
+			storage.TryGetValue(IVariableStorage.From, out from);
+			Trace.WriteLine($"Trigger executed. From = {from}, To = {to}, conceptName = {conceptName}");
+
 		}
 	}
 }

@@ -33,6 +33,8 @@ fragment DIGIT	: [0-9] ;
 fragment INT : DIGIT+ ;
 fragment LOWERCASE : [a-z] ;
 fragment UPPERCASE : [A-Z] ;
+fragment TRUE : T R U E ;
+fragment FALSE : F A L S E ;
 
 OPERATOR_LOGICAL_EQUALS : '=' ;
 
@@ -40,6 +42,7 @@ EXPRESSION_START : '{' ;
 EXPRESSION_END : '}' ;
 
 NUMBER : INT | INT '.' INT ;
+BOOLEAN : TRUE | FALSE ;
 
 RULE : R U L E ;
 

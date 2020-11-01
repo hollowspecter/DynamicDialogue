@@ -9,6 +9,9 @@ namespace DynamicDialogue
 	/// </summary>
 	public interface IVariableStorage
 	{
+		public static string Is = "Is";
+		public static string From = "From";
+
 		void SetValue(string variableName, string stringValue);
 		void SetValue(string variableName, float floatValue);
 		void SetValue(string variableName, bool boolValue);
