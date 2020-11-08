@@ -14,13 +14,22 @@ namespace DynamicDialogue
 
 		public bool Check(IVariableStorage _query)
 		{
-			throw new NotImplementedException();
+			for (int i = 0; i < conditions.Count; ++i)
+			{
+				if (conditions[i].Check(_query) == false)
+					return false;
+			}
+			return true;
 		}
 
-		public bool Execute(IVariableStorage _query)
+		public void Execute(IVariableStorage _query)
 		{
-			throw new NotImplementedException();
+			for (int i = 0; i < consequences.Count; ++i)
+			{
+				consequences[i].Execute(_query);
+			}
 		}
+
 		public Rule AddCondition(Clause _clause)
 		{
 			conditions.Add(_clause);

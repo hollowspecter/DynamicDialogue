@@ -145,9 +145,9 @@ namespace DynamicDialogue.Compiler
 			// Parse Conditions
 			{
 				ConditionVisitor conditionVisitor = new ConditionVisitor();
-				for (int i = 0; i < context.conditions().ChildCount; ++i)
+				for (int i = 0; i < context.conditions().condition_statement().Length; ++i)
 				{
-					rule.AddCondition(context.conditions().children[i].Accept(conditionVisitor));
+					rule.AddCondition(context.conditions().condition_statement(i).Accept(conditionVisitor));
 				}
 			}
 
@@ -169,7 +169,7 @@ namespace DynamicDialogue.Compiler
 			// Parse Trigger (optional)
 			if (context.trigger() != null)
 			{
-				context.trigger().Accept(new TriggerVisitor());
+				rule.AddConsequence(context.trigger().Accept(new TriggerVisitor()));
 			}
 
 			return rule;
@@ -229,6 +229,7 @@ namespace DynamicDialogue.Compiler
 
 	/// <summary>
 	/// Visitor for a remember consequence in a rule
+	/// Doesn't really need to return int
 	/// </summary>
 	internal class RememberStatementVisitor : BarkParserBaseVisitor<int>
 	{
@@ -345,7 +346,7 @@ namespace DynamicDialogue.Compiler
 			LineVisitor lineVisitor = new LineVisitor();
 			for (int i = 0; i < context.response_body().line().Length; ++i)
 			{
-				context.response_body().line()[i].Accept(lineVisitor);
+				response.AddLine(context.response_body().line()[i].Accept(lineVisitor));
 			}
 			return response;
 		}
@@ -359,7 +360,7 @@ namespace DynamicDialogue.Compiler
 		public override string VisitLine([NotNull] BarkParser.LineContext context)
 		{
 			string result = context.GetText();
-			return result.Substring(1, result.Length - 1);
+			return result.Substring(1, result.Length - 2);
 		}
 	}
 

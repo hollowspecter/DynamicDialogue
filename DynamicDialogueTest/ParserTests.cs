@@ -61,7 +61,7 @@ namespace DynamicDialogue.Test
 			var parser = CreateParser(File.ReadAllText(DogTalk));
 			var conditions = parser.talk().rule(0).rule_body().conditions();
 			Assert.That(conditions.condition_statement(0).GetText(), Is.EqualTo("ConceptSeeDog"));
-			Assert.That(conditions.condition_statement(1).GetText(), Is.EqualTo("DogSeen=0"));
+			Assert.That(conditions.condition_statement(1).GetText(), Is.EqualTo("DogSeen=2"));
 			Assert.That(conditions.condition_statement(2).GetText(), Is.EqualTo("Is=@A"));
 		}
 
@@ -71,7 +71,7 @@ namespace DynamicDialogue.Test
 			var parser = CreateParser(File.ReadAllText(DogTalk));
 			var equalsStatement = parser.talk().rule(0).rule_body().conditions().condition_statement(1).equals_statement();
 			Assert.That(equalsStatement.WORD(0).GetText(), Is.EqualTo("DogSeen"));
-			Assert.That(int.Parse(equalsStatement.NUMBER().GetText()), Is.EqualTo(0));
+			Assert.That(int.Parse(equalsStatement.NUMBER().GetText()), Is.EqualTo(2));
 		}
 
 		[Test]

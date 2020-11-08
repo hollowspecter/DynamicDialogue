@@ -87,7 +87,6 @@ namespace DynamicDialogue
 		{
 			storage.TryGetValue(IVariableStorage.From, out from);
 			Trace.WriteLine($"Trigger executed. From = {from}, To = {to}, conceptName = {conceptName}");
-
 		}
 	}
 }

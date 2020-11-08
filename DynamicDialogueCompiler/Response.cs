@@ -17,6 +17,8 @@ namespace DynamicDialogue
 			get;
 		}
 
+		public int LineCount => lines.Count;
+
 		public Response(string _name)
 		{
 			Name = _name;
