@@ -7,7 +7,7 @@ using System.Text;
 namespace DynamicDialogue
 {
 	/// <summary>
-	/// TODO
+	/// Consequences get executed, when a rule gets executed.
 	/// </summary>
 	public abstract class Consequence
 	{
@@ -15,7 +15,8 @@ namespace DynamicDialogue
 	}
 
 	/// <summary>
-	/// TODO
+	/// A StorageChange is a type of <see cref="Consequence"/> that
+	/// changes the referenced <see cref="IVariableStorage"/>
 	/// </summary>
 	public class StorageChange : Consequence
 	{
@@ -54,7 +55,10 @@ namespace DynamicDialogue
 	}
 
 	/// <summary>
-	/// TODO
+	/// Consequence that outputs text
+	/// 
+	/// TODO: how does the text response trigger something
+	///		  that actually can be implemented very differently?
 	/// </summary>
 	public class TextResponse : Consequence
 	{
@@ -71,6 +75,12 @@ namespace DynamicDialogue
 		}
 	}
 
+	/// <summary>
+	/// Consequence, that triggers a response to the current text
+	/// 
+	/// TODO: how does the text response trigger something
+	///	      that actually can be implemented very differently?
+	/// </summary>
 	public class TriggerResponse : Consequence
 	{
 		private string from;

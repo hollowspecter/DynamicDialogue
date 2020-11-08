@@ -226,7 +226,7 @@ namespace DynamicDialogueTest
 
 			Assert.That(status, Is.EqualTo(Compiler.Status.Success));
 			Assert.That(pack.ReponseCount, Is.EqualTo(2));
-			Assert.That(pack.RuleCount, Is.EqualTo(2));
+			Assert.That(pack.RuleCount, Is.EqualTo(4));
 		}
 	}
 }

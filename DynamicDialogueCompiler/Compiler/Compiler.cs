@@ -27,8 +27,6 @@ namespace DynamicDialogue.Compiler
 			Success
 		}
 
-		//TODO compile talking-files to rule-response-packages
-
 		/// <summary>
 		/// The name of the file that is currently parsed.
 		/// </summary>
@@ -67,11 +65,13 @@ namespace DynamicDialogue.Compiler
 		}
 
 		/// <summary>
-		/// TODO
+		/// Compiles text as a string into a <see cref="Pack"/>
 		/// </summary>
-		/// <param name="text"></param>
-		/// <param name="pack"></param>
-		/// <returns></returns>
+		/// <param name="text">The sourcecode to get compiled</param>
+		/// <param name="pack">On return contains the compiled pack</param>
+		/// <returns>Status of the compilation.</returns>
+		/// <exception cref="ParseException">Throws parse exception if something
+		/// goes wrong in the parsing step.</exception>
 		public static Status CompileString(string text, string fileName, out Pack pack)
 		{
 			AntlrInputStream inputStream = new AntlrInputStream(text);
@@ -114,7 +114,7 @@ namespace DynamicDialogue.Compiler
 
 		internal void Compile(IParseTree tree)
 		{
-			ParseTreeWalker walker = new ParseTreeWalker(); //TODO find out how this works?
+			ParseTreeWalker walker = new ParseTreeWalker();
 			walker.Walk(this, tree);
 		}
 

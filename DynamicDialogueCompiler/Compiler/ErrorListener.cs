@@ -29,7 +29,6 @@ namespace DynamicDialogue.Compiler
 	}
 
 	/// <summary>
-	/// TODO find out how this works
 	/// Source: https://github.com/YarnSpinnerTool/YarnSpinner/blob/master/YarnSpinner.Compiler/ErrorListener.cs
 	/// </summary>
 
@@ -49,7 +48,6 @@ namespace DynamicDialogue.Compiler
 			// the actual error message
 			builder.AppendLine(msg);
 
-			//TODO find out how to set those flags
 #if DEBUG
 			builder.AppendLine($"Debug: Offending symbol type: {recognizer.Vocabulary.GetSymbolicName(offendingSymbol.Type)}");
 #endif

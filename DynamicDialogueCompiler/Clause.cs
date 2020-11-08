@@ -5,7 +5,8 @@ using System.Text;
 namespace DynamicDialogue
 {
 	/// <summary>
-	/// TODO
+	/// A condition clause takes a <see cref="IVariableStorage"/>
+	/// and can be checked against ist.
 	/// </summary>
 	public abstract class Clause
 	{
@@ -13,7 +14,7 @@ namespace DynamicDialogue
 	}
 
 	/// <summary>
-	/// TODO
+	/// Checks, if a certain key is set in the <see cref="IVariableStorage"/>
 	/// </summary>
 	public class ExistsClause : Clause
 	{
@@ -31,7 +32,7 @@ namespace DynamicDialogue
 	}
 
 	/// <summary>
-	/// TODO
+	/// Checks if a string value is set in the <see cref="IVariableStorage"/>
 	/// </summary>
 	public class StringClause : Clause
 	{
@@ -55,7 +56,7 @@ namespace DynamicDialogue
 	}
 
 	/// <summary>
-	/// TODO
+	/// Checks if a certain bool value is set in the <see cref="IVariableStorage"/>
 	/// </summary>
 	public class BoolClause : Clause
 	{
@@ -75,7 +76,7 @@ namespace DynamicDialogue
 	}
 
 	/// <summary>
-	/// TODO
+	/// Checks if a certain float value is set in the <see cref="IVariableStorage"/>
 	/// </summary>
 	public class FloatClause : Clause
 	{

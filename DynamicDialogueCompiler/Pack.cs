@@ -16,24 +16,35 @@ namespace DynamicDialogue
 		public int RuleCount => rules.Count;
 		public int ReponseCount => responses.Count;
 
-		//TODO add a function that sorts all rules by number of conditions
-		//TODO or even better, make insertion sort and always insert where the same number of conditions is met
+		/// <summary>
+		/// Adds a new rule to the pack.
+		/// Uses InsertionSort to keep the pack sorted by the number of
+		/// conditions it has, descending.
+		/// </summary>
+		/// <param name="_rule"></param>
 		public void AddRule(Rule _rule)
 		{
+			int currentConditionCount = _rule.ConditionCount;
+			for (int i = 0; i < rules.Count; ++i)
+			{
+				if (currentConditionCount > rules[i].ConditionCount)
+				{
+					rules.Insert(i, _rule);
+					return;
+				}
+			}
+
 			rules.Add(_rule);
+		}
+
+		public Rule GetRule(int _index)
+		{
+			return rules[_index];
 		}
 
 		public void AddResponse(Response _response)
 		{
 			responses.Add(_response.Name, _response);
-		}
-
-		/// <summary>
-		/// Sorts the rules by the number of conditions
-		/// </summary>
-		public void SortRules()
-		{
-			throw new NotImplementedException();
 		}
 
 		public void Match(IVariableStorage query)

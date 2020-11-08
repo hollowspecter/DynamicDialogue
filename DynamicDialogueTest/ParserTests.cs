@@ -32,7 +32,7 @@ namespace DynamicDialogue.Test
 		public void TestTalk()
 		{
 			var parser = CreateParser(File.ReadAllText(DogTalk));
-			Assert.That(parser.talk().ChildCount, Is.EqualTo(4));
+			Assert.That(parser.talk().ChildCount, Is.EqualTo(6));
 		}
 
 		[Test]

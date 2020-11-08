@@ -5,12 +5,17 @@ using System.Text;
 namespace DynamicDialogue
 {
 	/// <summary>
-	/// TODO
+	/// Consists of conditions (<see cref="Clause"/>) and <see cref="Consequence"/>s.
+	/// A rule can be matched against a query (<see cref="IVariableStorage"/>),
+	/// and can be executed.
+	/// Execution of a rule results in executing all the consequences consequently.
 	/// </summary>
 	public class Rule
 	{
 		private List<Clause> conditions = new List<Clause>();
 		private List<Consequence> consequences = new List<Consequence>();
+
+		public int ConditionCount => conditions.Count;
 
 		public bool Check(IVariableStorage _query)
 		{

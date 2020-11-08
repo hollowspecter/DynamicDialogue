@@ -26,3 +26,15 @@ Rule PersonB_Thanks
 	conditions ConceptAnswer ConceptCuteDog1 Is=@B From=@A Dead=true
 	response ThankYou
 }
+
+Rule PersonB_Thanks2
+{
+	conditions ConceptAnswer ConceptCuteDog1 Is=@B From=@A
+	response ThankYou
+}
+
+Rule PersonB_Thanks3
+{
+	conditions ConceptAnswer
+	response ThankYou
+}
