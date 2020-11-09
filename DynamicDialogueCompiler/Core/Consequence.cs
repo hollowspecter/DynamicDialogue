@@ -1,10 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Diagnostics;
-using System.Reflection.Metadata;
-using System.Text;
 
-namespace DynamicDialogue
+namespace DynamicDialogue.Core
 {
 	/// <summary>
 	/// Consequences get executed, when a rule gets executed.

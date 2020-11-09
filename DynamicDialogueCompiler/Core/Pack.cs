@@ -1,8 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Text;
 
-namespace DynamicDialogue
+namespace DynamicDialogue.Core
 {
 	/// <summary>
 	/// A file compiles into a pack (of dogs).

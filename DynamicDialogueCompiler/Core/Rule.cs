@@ -1,8 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using System.Collections.Generic;
 
-namespace DynamicDialogue
+namespace DynamicDialogue.Core
 {
 	/// <summary>
 	/// Consists of conditions (<see cref="Clause"/>) and <see cref="Consequence"/>s.

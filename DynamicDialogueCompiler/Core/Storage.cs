@@ -1,8 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 
-namespace DynamicDialogue
+namespace DynamicDialogue.Core
 {
 	/// <summary>
 	/// Provides a mechanism for storing and retrieving instances of the <see cref="Value"/> class.
