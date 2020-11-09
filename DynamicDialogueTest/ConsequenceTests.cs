@@ -1,8 +1,5 @@
-﻿using DynamicDialogue;
+﻿using DynamicDialogue.Core;
 using NUnit.Framework;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace DynamicDialogueTest
 {
@@ -56,11 +53,13 @@ namespace DynamicDialogueTest
 		[Test]
 		public void TestTextReponse()
 		{
+			//TODO
 		}
 
 		[Test]
 		public void TestTriggerResponse()
 		{
+			//TODO
 		}
 	}
 }

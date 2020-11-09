@@ -1,13 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Runtime.CompilerServices;
 
+[assembly: InternalsVisibleTo("DynamicDialogueTest")]
 namespace DynamicDialogue.Core
 {
 	/// <summary>
 	/// A file compiles into a pack (of dogs).
 	/// A pack consists of rules and responses.
 	/// </summary>
-	public class Pack
+	internal class Pack
 	{
 		private List<Rule> rules = new List<Rule>();
 		private Dictionary<string, Response> responses = new Dictionary<string, Response>();
@@ -20,32 +22,45 @@ namespace DynamicDialogue.Core
 		/// Uses InsertionSort to keep the pack sorted by the number of
 		/// conditions it has, descending.
 		/// </summary>
-		/// <param name="_rule"></param>
-		public void AddRule(Rule _rule)
+		/// <param name="rule"></param>//TODO
+		public void AddRule(Rule rule)
 		{
-			int currentConditionCount = _rule.ConditionCount;
+			int currentConditionCount = rule.ConditionCount;
 			for (int i = 0; i < rules.Count; ++i)
 			{
 				if (currentConditionCount > rules[i].ConditionCount)
 				{
-					rules.Insert(i, _rule);
+					rules.Insert(i, rule);
 					return;
 				}
 			}
 
-			rules.Add(_rule);
+			rules.Add(rule);
 		}
 
-		public Rule GetRule(int _index)
+		/// <summary>
+		/// TODO
+		/// </summary>
+		/// <param name="index"></param>
+		/// <returns></returns>
+		public Rule GetRule(int index)
 		{
-			return rules[_index];
+			return rules[index];
 		}
 
-		public void AddResponse(Response _response)
+		/// <summary>
+		/// TODO
+		/// </summary>
+		/// <param name="response"></param>
+		public void AddResponse(Response response)
 		{
-			responses.Add(_response.Name, _response);
+			responses.Add(response.Name, response);
 		}
 
+		/// <summary>
+		/// TODO
+		/// </summary>
+		/// <param name="query"></param>
 		public void Match(IVariableStorage query)
 		{
 			throw new NotImplementedException();

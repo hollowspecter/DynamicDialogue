@@ -1,18 +1,21 @@
-﻿namespace DynamicDialogue.Core
+﻿using System.Runtime.CompilerServices;
+
+[assembly: InternalsVisibleTo("DynamicDialogueTest")]
+namespace DynamicDialogue.Core
 {
 	/// <summary>
 	/// A condition clause takes a <see cref="IVariableStorage"/>
 	/// and can be checked against ist.
 	/// </summary>
-	public abstract class Clause
+	internal abstract class Clause
 	{
-		public abstract bool Check(IVariableStorage _storage);
+		public abstract bool Check(IVariableStorage storage);
 	}
 
 	/// <summary>
 	/// Checks, if a certain key is set in the <see cref="IVariableStorage"/>
 	/// </summary>
-	public class ExistsClause : Clause
+	internal class ExistsClause : Clause
 	{
 		private readonly string key;
 
@@ -21,29 +24,29 @@
 			key = _key;
 		}
 
-		public override bool Check(IVariableStorage _storage)
+		public override bool Check(IVariableStorage storage)
 		{
-			return _storage.TryGetValue<object>(key, out _);
+			return storage.TryGetValue<object>(key, out _);
 		}
 	}
 
 	/// <summary>
 	/// Checks if a string value is set in the <see cref="IVariableStorage"/>
 	/// </summary>
-	public class StringClause : Clause
+	internal class StringClause : Clause
 	{
 		private readonly string key;
 		private readonly string compareToValue;
 
-		public StringClause(string _key, string _compareToValue)
+		public StringClause(string key, string compareToValue)
 		{
-			key = _key;
-			compareToValue = _compareToValue;
+			this.key = key;
+			this.compareToValue = compareToValue;
 		}
 
-		public override bool Check(IVariableStorage _storage)
+		public override bool Check(IVariableStorage storage)
 		{
-			if (_storage.TryGetValue(key, out string result) &&
+			if (storage.TryGetValue(key, out string result) &&
 				result.Equals(compareToValue))
 				return true;
 			else
@@ -54,27 +57,27 @@
 	/// <summary>
 	/// Checks if a certain bool value is set in the <see cref="IVariableStorage"/>
 	/// </summary>
-	public class BoolClause : Clause
+	internal class BoolClause : Clause
 	{
 		private readonly string key;
 		private readonly bool compareValue;
 
-		public BoolClause(string _key, bool _compareValue)
+		public BoolClause(string key, bool compareValue)
 		{
-			key = _key;
-			compareValue = _compareValue;
+			this.key = key;
+			this.compareValue = compareValue;
 		}
 
-		public override bool Check(IVariableStorage _storage)
+		public override bool Check(IVariableStorage storage)
 		{
-			return _storage.TryGetValue(key, out bool result) && result == compareValue;
+			return storage.TryGetValue(key, out bool result) && result == compareValue;
 		}
 	}
 
 	/// <summary>
 	/// Checks if a certain float value is set in the <see cref="IVariableStorage"/>
 	/// </summary>
-	public class FloatClause : Clause
+	internal class FloatClause : Clause
 	{
 		public enum CompareMode
 		{
@@ -87,28 +90,28 @@
 		private readonly float maxValue = float.MaxValue;
 		private readonly string key;
 
-		public FloatClause(string _key, CompareMode _mode, float _compareToValue)
+		public FloatClause(string key, CompareMode mode, float compareToValue)
 		{
-			key = _key;
+			this.key = key;
 
-			switch (_mode)
+			switch (mode)
 			{
 				case CompareMode.EQUAL_OR_LESS_THAN:
-					maxValue = _compareToValue;
+					maxValue = compareToValue;
 					break;
 				case CompareMode.EQUAL_OR_GREATER_THAN:
-					minValue = _compareToValue;
+					minValue = compareToValue;
 					break;
 				case CompareMode.EQUAL_TO:
-					minValue = _compareToValue;
-					maxValue = _compareToValue;
+					minValue = compareToValue;
+					maxValue = compareToValue;
 					break;
 			}
 		}
 
-		public override bool Check(IVariableStorage _storage)
+		public override bool Check(IVariableStorage storage)
 		{
-			if (_storage.TryGetValue(key, out float value) &&
+			if (storage.TryGetValue(key, out float value) &&
 				value >= minValue - float.Epsilon &&
 				value <= maxValue + float.Epsilon)
 				return true;

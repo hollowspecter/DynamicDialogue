@@ -1,12 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Runtime.CompilerServices;
 
+[assembly: InternalsVisibleTo("DynamicDialogueTest")]
 namespace DynamicDialogue.Core
 {
 	/// <summary>
 	/// A response holds a number of lines
 	/// </summary>
-	public class Response
+	internal class Response
 	{
 		private List<string> lines = new List<string>();
 		private Random random = new Random();
@@ -18,14 +20,14 @@ namespace DynamicDialogue.Core
 
 		public int LineCount => lines.Count;
 
-		public Response(string _name)
+		public Response(string name)
 		{
-			Name = _name;
+			Name = name;
 		}
 
-		public void AddLine(string _text)
+		public void AddLine(string text)
 		{
-			lines.Add(_text);
+			lines.Add(text);
 		}
 
 		public string GetRandomLine()

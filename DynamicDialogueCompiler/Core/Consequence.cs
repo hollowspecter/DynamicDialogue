@@ -1,12 +1,14 @@
 ﻿using System.Collections.Generic;
 using System.Diagnostics;
+using System.Runtime.CompilerServices;
 
+[assembly: InternalsVisibleTo("DynamicDialogueTest")]
 namespace DynamicDialogue.Core
 {
 	/// <summary>
 	/// Consequences get executed, when a rule gets executed.
 	/// </summary>
-	public abstract class Consequence
+	internal abstract class Consequence
 	{
 		public abstract void Execute(IVariableStorage storage);
 	}
@@ -15,7 +17,7 @@ namespace DynamicDialogue.Core
 	/// A StorageChange is a type of <see cref="Consequence"/> that
 	/// changes the referenced <see cref="IVariableStorage"/>
 	/// </summary>
-	public class StorageChange : Consequence
+	internal class StorageChange : Consequence
 	{
 		private Dictionary<string, object> changes = new Dictionary<string, object>();
 
@@ -57,13 +59,13 @@ namespace DynamicDialogue.Core
 	/// TODO: how does the text response trigger something
 	///		  that actually can be implemented very differently?
 	/// </summary>
-	public class TextResponse : Consequence
+	internal class TextResponse : Consequence
 	{
 		private string responseId;
 
-		public TextResponse(string _responseId)
+		public TextResponse(string responseId)
 		{
-			responseId = _responseId;
+			this.responseId = responseId;
 		}
 
 		public override void Execute(IVariableStorage storage)
@@ -78,16 +80,16 @@ namespace DynamicDialogue.Core
 	/// TODO: how does the text response trigger something
 	///	      that actually can be implemented very differently?
 	/// </summary>
-	public class TriggerResponse : Consequence
+	internal class TriggerResponse : Consequence
 	{
 		private string from;
 		private string to;
 		private string conceptName;
 
-		public TriggerResponse(string _to, string _conceptName)
+		public TriggerResponse(string to, string conceptName)
 		{
-			to = _to;
-			conceptName = _conceptName;
+			this.to = to;
+			this.conceptName = conceptName;
 		}
 
 		public override void Execute(IVariableStorage storage)

@@ -1,5 +1,7 @@
 ﻿using System.Collections.Generic;
+using System.Runtime.CompilerServices;
 
+[assembly: InternalsVisibleTo("DynamicDialogueTest")]
 namespace DynamicDialogue.Core
 {
 	/// <summary>
@@ -8,40 +10,40 @@ namespace DynamicDialogue.Core
 	/// and can be executed.
 	/// Execution of a rule results in executing all the consequences consequently.
 	/// </summary>
-	public class Rule
+	internal class Rule
 	{
 		private List<Clause> conditions = new List<Clause>();
 		private List<Consequence> consequences = new List<Consequence>();
 
 		public int ConditionCount => conditions.Count;
 
-		public bool Check(IVariableStorage _query)
+		public bool Check(IVariableStorage query)
 		{
 			for (int i = 0; i < conditions.Count; ++i)
 			{
-				if (conditions[i].Check(_query) == false)
+				if (conditions[i].Check(query) == false)
 					return false;
 			}
 			return true;
 		}
 
-		public void Execute(IVariableStorage _query)
+		public void Execute(IVariableStorage query)
 		{
 			for (int i = 0; i < consequences.Count; ++i)
 			{
-				consequences[i].Execute(_query);
+				consequences[i].Execute(query);
 			}
 		}
 
-		public Rule AddCondition(Clause _clause)
+		public Rule AddCondition(Clause clause)
 		{
-			conditions.Add(_clause);
+			conditions.Add(clause);
 			return this;
 		}
 
-		public Rule AddConsequence(Consequence _consequence)
+		public Rule AddConsequence(Consequence consequence)
 		{
-			consequences.Add(_consequence);
+			consequences.Add(consequence);
 			return this;
 		}
 	}

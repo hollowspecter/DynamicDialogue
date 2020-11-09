@@ -14,9 +14,9 @@ namespace DynamicDialogue.Compiler
 	{
 		internal int lineNumber = 0;
 
-		internal ParseException(string _message) : base(_message) { }
+		internal ParseException(string message) : base(message) { }
 
-		internal static ParseException Make(Antlr4.Runtime.ParserRuleContext context, string _message)
+		internal static ParseException Make(Antlr4.Runtime.ParserRuleContext context, string message)
 		{
 			int line = context.Start.Line;
 
@@ -25,8 +25,8 @@ namespace DynamicDialogue.Compiler
 			int end = context.Stop.StopIndex;
 			string body = context.Start.InputStream.GetText(new Antlr4.Runtime.Misc.Interval(start, end));
 
-			string message = string.Format(CultureInfo.CurrentCulture, "Error on line {0}\n{1}\n{2}", line, body, _message);
-			var e = new ParseException(message) { lineNumber = line };
+			string messageResult = string.Format(CultureInfo.CurrentCulture, "Error on line {0}\n{1}\n{2}", line, body, message);
+			var e = new ParseException(messageResult) { lineNumber = line };
 			return e;
 		}
 	}

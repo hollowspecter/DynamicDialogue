@@ -1,10 +1,8 @@
 ﻿using NUnit.Framework;
-using DynamicDialogue;
-using Antlr4;
 using Antlr4.Runtime;
 using System.IO;
+using DynamicDialogue.Core;
 using DynamicDialogue.Compiler;
-using System.Diagnostics;
 using static DynamicDialogueTest.TestFiles;
 
 namespace DynamicDialogueTest
@@ -16,9 +14,9 @@ namespace DynamicDialogueTest
 		private const string line2 = "so awesome";
 		private const string line3 = "such a cutie!";
 
-		private BarkParser CreateParser(string _text)
+		private BarkParser CreateParser(string text)
 		{
-			AntlrInputStream inputStream = new AntlrInputStream(_text);
+			AntlrInputStream inputStream = new AntlrInputStream(text);
 			BarkLexer lexer = new BarkLexer(inputStream);
 			CommonTokenStream commonTokenStream = new CommonTokenStream(lexer);
 			BarkParser parser = new BarkParser(commonTokenStream);

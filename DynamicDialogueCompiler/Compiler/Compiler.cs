@@ -5,7 +5,9 @@ using System.IO;
 using Antlr4.Runtime.Misc;
 using Antlr4.Runtime.Tree;
 using DynamicDialogue.Core;
+using System.Runtime.CompilerServices;
 
+[assembly: InternalsVisibleTo("DynamicDialogueTest")]
 namespace DynamicDialogue.Compiler
 {
 	#region Compiler
@@ -13,7 +15,7 @@ namespace DynamicDialogue.Compiler
 	/// <summary>
 	/// Compiles Bark-Files into DynamicDialogueChunks.
 	/// </summary>
-	public class Compiler : BarkParserBaseListener
+	internal class Compiler : BarkParserBaseListener
 	{
 		/// <summary>
 		/// Specifies the result of compiled Yarn Code.
@@ -55,7 +57,7 @@ namespace DynamicDialogue.Compiler
 		/// <returns>Status of compilation</returns>
 		/// <exception cref="ParseException">Thrown when a parse
 		/// error occurs during compilation</exception>
-		public static Status CompileFile(string path, out Pack pack)
+		internal static Status CompileFile(string path, out Pack pack)
 		{
 			var source = File.ReadAllText(path);
 			var fileName = Path.GetFileNameWithoutExtension(path);
@@ -70,7 +72,7 @@ namespace DynamicDialogue.Compiler
 		/// <returns>Status of the compilation.</returns>
 		/// <exception cref="ParseException">Throws parse exception if something
 		/// goes wrong in the parsing step.</exception>
-		public static Status CompileString(string text, string fileName, out Pack pack)
+		internal static Status CompileString(string text, string fileName, out Pack pack)
 		{
 			AntlrInputStream inputStream = new AntlrInputStream(text);
 			BarkLexer lexer = new BarkLexer(inputStream);
@@ -233,9 +235,9 @@ namespace DynamicDialogue.Compiler
 	{
 		private StorageChange storageChange;
 
-		public RememberStatementVisitor(StorageChange _storageChange)
+		public RememberStatementVisitor(StorageChange storageChange)
 		{
-			storageChange = _storageChange;
+			this.storageChange = storageChange;
 		}
 
 		public override int VisitEquals_statement([NotNull] BarkParser.Equals_statementContext context)

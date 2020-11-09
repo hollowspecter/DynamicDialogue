@@ -11,10 +11,9 @@ namespace DynamicDialogue.Test
 {
 	public class ParserTests
 	{
-
-		private BarkParser CreateParser(string _text)
+		private BarkParser CreateParser(string text)
 		{
-			AntlrInputStream inputStream = new AntlrInputStream(_text);
+			AntlrInputStream inputStream = new AntlrInputStream(text);
 			BarkLexer lexer = new BarkLexer(inputStream);
 			CommonTokenStream commonTokenStream = new CommonTokenStream(lexer);
 			BarkParser parser = new BarkParser(commonTokenStream);
