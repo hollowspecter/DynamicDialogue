@@ -3,7 +3,7 @@ using Antlr4.Runtime;
 using System.IO;
 using DynamicDialogue.Core;
 using DynamicDialogue.Compiler;
-using static DynamicDialogueTest.TestFiles;
+using static DynamicDialogue.Test.TestFiles;
 
 namespace DynamicDialogueTest
 {

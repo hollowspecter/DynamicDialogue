@@ -5,9 +5,9 @@ using Antlr4.Runtime;
 using System.IO;
 using DynamicDialogue.Compiler;
 using System.Diagnostics;
-using static DynamicDialogueTest.TestFiles;
+using static DynamicDialogue.Test.TestFiles;
 
-namespace DynamicDialogue.Test
+namespace DynamicDialogueTest
 {
 	public class ParserTests
 	{

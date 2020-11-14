@@ -42,7 +42,7 @@ namespace DynamicDialogue.Compiler
 
 		internal Compiler(string fileName)
 		{
-			Pack = new Pack();
+			Pack = new Pack(fileName);
 			FileName = fileName;
 		}
 

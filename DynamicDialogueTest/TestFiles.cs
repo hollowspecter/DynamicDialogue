@@ -1,4 +1,4 @@
-﻿namespace DynamicDialogueTest
+﻿namespace DynamicDialogue.Test
 {
 	public static class TestFiles
 	{

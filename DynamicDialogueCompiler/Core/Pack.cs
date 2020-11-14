@@ -12,10 +12,20 @@ namespace DynamicDialogue.Core
 	internal class Pack
 	{
 		private List<Rule> rules = new List<Rule>();
+		private List<Response> responseList = new List<Response>();
 		private Dictionary<string, Response> responses = new Dictionary<string, Response>();
 
 		public int RuleCount => rules.Count;
 		public int ReponseCount => responses.Count;
+		public string Name
+		{
+			get; private set;
+		}
+
+		public Pack(string name)
+		{
+			Name = name;
+		}
 
 		/// <summary>
 		/// Adds a new rule to the pack.
@@ -51,10 +61,31 @@ namespace DynamicDialogue.Core
 		/// <summary>
 		/// TODO
 		/// </summary>
+		/// <param name="index"></param>
+		/// <returns></returns>
+		public Response GetResponse(int index)
+		{
+			return responseList[index];
+		}
+
+		/// <summary>
+		/// 
+		/// </summary>
+		/// <param name="id"></param>
+		/// <returns></returns>
+		public bool TryGetResponse(string id, out Response response)
+		{
+			return responses.TryGetValue(id, out response);
+		}
+
+		/// <summary>
+		/// TODO
+		/// </summary>
 		/// <param name="response"></param>
 		public void AddResponse(Response response)
 		{
 			responses.Add(response.Name, response);
+			responseList.Add(response);
 		}
 
 		/// <summary>

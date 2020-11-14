@@ -1,7 +1,8 @@
 ﻿using NUnit.Framework;
 using Antlr4.Runtime;
 using DynamicDialogue.Compiler;
-using static DynamicDialogueTest.TestFiles;
+using DynamicDialogue;
+using static DynamicDialogue.Test.TestFiles;
 
 namespace DynamicDialogueTest
 {
