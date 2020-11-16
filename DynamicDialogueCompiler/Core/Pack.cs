@@ -33,7 +33,7 @@ namespace DynamicDialogue.Core
 		/// conditions it has, descending.
 		/// </summary>
 		/// <param name="rule"></param>//TODO
-		public void AddRule(Rule rule)
+		public Pack AddRule(Rule rule)
 		{
 			int currentConditionCount = rule.ConditionCount;
 			for (int i = 0; i < rules.Count; ++i)
@@ -41,11 +41,12 @@ namespace DynamicDialogue.Core
 				if (currentConditionCount > rules[i].ConditionCount)
 				{
 					rules.Insert(i, rule);
-					return;
+					return this;
 				}
 			}
 
 			rules.Add(rule);
+			return this;
 		}
 
 		/// <summary>
@@ -56,6 +57,24 @@ namespace DynamicDialogue.Core
 		public Rule GetRule(int index)
 		{
 			return rules[index];
+		}
+
+		/// <summary>
+		/// 
+		/// </summary>
+		/// <param name="index"></param>
+		/// <param name="rule"></param>
+		/// <returns></returns>
+		public bool TryGetRule(int index, out Rule rule)
+		{
+			if (index < 0 ||
+				index >= rules.Count)
+			{
+				rule = null;
+				return false;
+			}
+			rule = rules[index];
+			return true;
 		}
 
 		/// <summary>
@@ -82,10 +101,11 @@ namespace DynamicDialogue.Core
 		/// TODO
 		/// </summary>
 		/// <param name="response"></param>
-		public void AddResponse(Response response)
+		public Pack AddResponse(Response response)
 		{
 			responses.Add(response.Name, response);
 			responseList.Add(response);
+			return this;
 		}
 
 		/// <summary>

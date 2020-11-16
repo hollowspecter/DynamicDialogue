@@ -1,10 +1,6 @@
 ﻿using DynamicDialogue;
 using DynamicDialogue.Core;
 using NUnit.Framework;
-using System;
-using System.Collections.Generic;
-using System.Runtime.CompilerServices;
-using System.Text;
 
 namespace DynamicDialogueTest
 {
@@ -12,6 +8,7 @@ namespace DynamicDialogueTest
 	{
 		private Pack pack1;
 		private Pack pack2;
+		private Pack pack3_sameNameAs1;
 		private Rule rule_oneCondition;
 		private Rule rule_twoConditions;
 		private Rule rule_threeConditions;
@@ -48,6 +45,8 @@ namespace DynamicDialogueTest
 			pack2 = new Pack("2");
 			pack2.AddRule(rule_threeConditions);
 			pack2.AddResponse(response2);
+
+			pack3_sameNameAs1 = new Pack("1").AddResponse(new Response("response1"));
 		}
 
 		[TearDown]
@@ -85,7 +84,7 @@ namespace DynamicDialogueTest
 		{
 			Machine machine = new Machine();
 			machine.LoadPack(pack1);
-			var status = machine.LoadPack(pack2);
+			var status = machine.LoadPack(pack3_sameNameAs1);
 			Assert.That(status, Is.EqualTo(Machine.LoadStatus.Additive));
 		}
 
@@ -160,9 +159,8 @@ namespace DynamicDialogueTest
 			machine.LoadPack(pack1);
 			MemoryVariableStorage query = new MemoryVariableStorage();
 			query.SetValue(existsClauseKey, true);
-			Rule resultRule;
 
-			Assert.True(machine.TryQueryRule(query, out resultRule));
+			Assert.True(machine.TryQueryRule(query, out var resultRule));
 			Assert.That(resultRule, Is.EqualTo(rule_oneCondition));
 		}
 
@@ -174,9 +172,8 @@ namespace DynamicDialogueTest
 			MemoryVariableStorage query = new MemoryVariableStorage();
 			query.SetValue(existsClauseKey, true);
 			query.SetValue(existsClauseKey2, true);
-			Rule resultRule;
 
-			Assert.True(machine.TryQueryRule(query, out resultRule));
+			Assert.True(machine.TryQueryRule(query, out var resultRule));
 			Assert.That(resultRule, Is.EqualTo(rule_twoConditions));
 		}
 

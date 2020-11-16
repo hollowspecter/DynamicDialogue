@@ -22,6 +22,11 @@ namespace DynamicDialogue
 
 		private Dictionary<string, Pack> packDictionairy = new Dictionary<string, Pack>();
 		private List<Pack> packs = new List<Pack>();
+		private List<int> searchPointers = new List<int>();
+
+		private List<int> conditionCounts = new List<int>();
+		private bool conditionCountsDirty = false;
+		private int highestConditionCount = 0;
 
 		/// <summary>
 		/// Loads a new pack into memory.
@@ -57,6 +62,7 @@ namespace DynamicDialogue
 				for (int i = 0; i < responseCount; ++i)
 					originalPack.AddResponse(pack.GetResponse(i));
 
+				conditionCountsDirty = true;
 				return LoadStatus.Additive;
 			}
 			//Add newly
@@ -64,6 +70,9 @@ namespace DynamicDialogue
 			{
 				packDictionairy.Add(pack.Name, pack);
 				packs.Add(pack);
+				searchPointers.Add(0);
+				conditionCounts.Add(0);
+				conditionCountsDirty = true;
 				return LoadStatus.New;
 			}
 		}
@@ -80,6 +89,8 @@ namespace DynamicDialogue
 			{
 				packs.Remove(pack);
 				packDictionairy.Remove(key);
+				conditionCounts.RemoveAt(0);
+				conditionCountsDirty = true;
 				return true;
 			}
 
@@ -93,6 +104,9 @@ namespace DynamicDialogue
 		{
 			packs.Clear();
 			packDictionairy.Clear();
+			searchPointers.Clear();
+			conditionCounts.Clear();
+			conditionCountsDirty = false;
 		}
 
 		/// <summary>
@@ -108,7 +122,60 @@ namespace DynamicDialogue
 		/// <returns>True, when a rule was successfully matched, false if not.</returns>
 		internal bool TryQueryRule(IVariableStorage query, out Rule rule)
 		{
-			throw new NotImplementedException();
+			if (conditionCountsDirty)
+			{
+				conditionCountsDirty = false;
+				highestConditionCount = 0;
+				for (int i = 0; i < packs.Count; ++i)
+				{
+					if (packs[i].TryGetRule(0, out var firstRule))
+					{
+						conditionCounts[i] = firstRule.ConditionCount;
+						highestConditionCount = Math.Max(highestConditionCount, firstRule.ConditionCount);
+					}
+					else
+					{
+						conditionCounts[i] = 0;
+					}
+				}
+			}
+
+			while (highestConditionCount > 0)
+			{
+				int localHighConditionCount = 0;
+
+				// go through every pack
+				for (int i = 0; i < packs.Count; ++i)
+				{
+					// if the pack has the current condition high, check it and move counter
+					while (packs[i].TryGetRule(searchPointers[i], out var currentRule) &&
+						currentRule.ConditionCount == highestConditionCount)
+					{
+						if (currentRule.Check(query))
+						{
+							rule = currentRule;
+							return true;
+						}
+						else
+						{
+							searchPointers[i]++;
+						}
+					}
+
+					// Update the new local high condition count
+					if (packs[i].TryGetRule(searchPointers[i], out var lastRule))
+					{
+						localHighConditionCount = Math.Max(localHighConditionCount, lastRule.ConditionCount);
+					}
+				}
+
+				// After iterating through all packs at the searchpointer and moving it,
+				// we update the new highest condition count
+				highestConditionCount = localHighConditionCount;
+			}
+
+			rule = null;
+			return false;
 		}
 
 		/// <summary>
