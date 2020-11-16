@@ -1,4 +1,5 @@
 ﻿using DynamicDialogue.Core;
+using DynamicDialogue;
 using NUnit.Framework;
 
 namespace DynamicDialogueTest
@@ -12,12 +13,17 @@ namespace DynamicDialogueTest
 			string key = "test";
 			bool value = true;
 			change.AddChange(key, value);
-			IVariableStorage storage = new MemoryVariableStorage();
+			Machine machine = new Machine
+			{
+				StorageChangeHandler = changes =>
+				{
+					Assert.True(changes.TryGetValue(key, out var result));
+					Assert.True(result is bool);
+					Assert.True((bool)result);
+				}
+			};
 
-			change.Execute(storage);
-
-			Assert.True(storage.TryGetValue(key, out bool result));
-			Assert.That(result, Is.EqualTo(value));
+			change.Execute(machine);
 		}
 
 		[Test]
@@ -27,12 +33,18 @@ namespace DynamicDialogueTest
 			string key = "test";
 			float value = 13.5f;
 			change.AddChange(key, value);
-			IVariableStorage storage = new MemoryVariableStorage();
+			Machine machine = new Machine
+			{
+				StorageChangeHandler = changes =>
+				{
+					Assert.True(changes.TryGetValue(key, out var result));
+					Assert.True(result is float);
+					Assert.That((float)result, Is.EqualTo(value));
+				}
+			};
 
-			change.Execute(storage);
+			change.Execute(machine);
 
-			Assert.True(storage.TryGetValue(key, out float result));
-			Assert.That(result, Is.EqualTo(value));
 		}
 
 		[Test]
@@ -42,24 +54,46 @@ namespace DynamicDialogueTest
 			string key = "test";
 			string value = " .128)&ASD";
 			change.AddChange(key, value);
-			IVariableStorage storage = new MemoryVariableStorage();
 
-			change.Execute(storage);
-
-			Assert.True(storage.TryGetValue(key, out string result));
-			Assert.That(result, Is.EqualTo(value));
+			change.Execute(new Machine
+			{
+				StorageChangeHandler = changes =>
+				{
+					Assert.True(changes.TryGetValue(key, out var result));
+					Assert.True(result is string);
+					Assert.AreEqual((string)result, value);
+				}
+			});
 		}
 
 		[Test]
 		public void TestTextReponse()
 		{
-			//TODO
+			string expectedId = "responseId";
+			TextResponse textResponse = new TextResponse(expectedId);
+			textResponse.Execute(new Machine
+			{
+				TextResponseHandler = responseId =>
+				{
+					Assert.AreEqual(responseId, expectedId);
+				}
+			});
 		}
 
 		[Test]
 		public void TestTriggerResponse()
 		{
-			//TODO
+			string expectedTo = "Vivi";
+			string expectedConcept = "Talk";
+			TriggerResponse triggerResponse = new TriggerResponse(expectedTo, expectedConcept);
+			triggerResponse.Execute(new Machine
+			{
+				TriggerResponseHandler = trigger =>
+				{
+					Assert.AreEqual(trigger.To, expectedTo);
+					Assert.AreEqual(trigger.ConceptName, expectedConcept);
+				}
+			});
 		}
 	}
 }

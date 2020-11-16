@@ -1,6 +1,7 @@
 ﻿using NUnit.Framework;
 using Antlr4.Runtime;
 using System.IO;
+using DynamicDialogue;
 using DynamicDialogue.Core;
 using DynamicDialogue.Compiler;
 using static DynamicDialogue.Test.TestFiles;
@@ -110,7 +111,15 @@ namespace DynamicDialogueTest
 			Consequence trigger = parser.talk().rule(0).rule_body().Accept(visitor);
 
 			Assert.That(trigger, Is.InstanceOf(typeof(TriggerResponse)));
-			//TODO not sure how to test the Trigger Responses yet. Behaviour is yet undefined
+
+			trigger.Execute(new Machine()
+			{
+				TriggerResponseHandler = trigger =>
+				{
+					Assert.AreEqual(trigger.To, "@B");
+					Assert.AreEqual(trigger.ConceptName, "CuteDog1");
+				}
+			});
 		}
 
 		[Test]
@@ -119,13 +128,17 @@ namespace DynamicDialogueTest
 			var parser = CreateParser(File.ReadAllText(DogTalk));
 			StorageChange change = new StorageChange();
 			RememberStatementVisitor visitor = new RememberStatementVisitor(change);
-			IVariableStorage storage = new MemoryVariableStorage();
-
 			parser.talk().rule(0).rule_body().remember().Accept(visitor);
-			change.Execute(storage);
 
-			Assert.True(storage.TryGetValue("Dog_Seen", out float result));
-			Assert.AreEqual(result, 1f);
+			change.Execute(new Machine
+			{
+				StorageChangeHandler = changes =>
+				{
+					Assert.True(changes.TryGetValue("Dog_Seen", out var value));
+					Assert.True(value is float);
+					Assert.AreEqual((float)value, 1f);
+				}
+			});
 		}
 
 		[Test]
@@ -137,7 +150,8 @@ namespace DynamicDialogueTest
 			Consequence ruleResponse = parser.talk().rule(0).rule_body().rule_response().Accept(visitor);
 
 			Assert.That(ruleResponse, Is.InstanceOf(typeof(TextResponse)));
-			//TODO also not sure what to do here
+
+			ruleResponse.Execute(new Machine() { TextResponseHandler = responseId => Assert.AreEqual("SeeDog", responseId) });
 		}
 
 		[Test]
@@ -197,24 +211,37 @@ namespace DynamicDialogueTest
 		}
 
 		[Test]
-		public void TestRuleVisitor()
+		public void TestRuleVisitor_AllHandlers()
 		{
 			var parser = CreateParser(File.ReadAllText(DogTalk));
 			RuleVisitor visitor = new RuleVisitor();
 			IVariableStorage query = new MemoryVariableStorage();
-			IVariableStorage empty = new MemoryVariableStorage();
 			query.SetValue("ConceptSeeDog", true);
 			query.SetValue("DogSeen", 2f);
 			query.SetValue("Is", "@A");
 
 			Rule rule = parser.talk().rule(0).rule_body().Accept(visitor);
-			rule.Execute(empty);
+			rule.Execute(new Machine()
+			{
+				StorageChangeHandler = changes =>
+				{
+					Assert.True(changes.TryGetValue("Dog_Seen", out var dogSeenValue));
+					Assert.AreEqual((float)dogSeenValue, 1f);
+				},
+
+				TextResponseHandler = responseId =>
+				{
+					Assert.AreEqual(responseId, "SeeDog");
+				},
+
+				TriggerResponseHandler = trigger =>
+				{
+					Assert.AreEqual(trigger.To, "@B");
+					Assert.AreEqual(trigger.ConceptName, "CuteDog1");
+				}
+			});
 
 			Assert.True(rule.Check(query));
-			Assert.True(empty.TryGetValue("Dog_Seen", out float dogSeenValue));
-			Assert.That(dogSeenValue, Is.EqualTo(1f));
-
-			//TODO once i know how to check response and trigger
 		}
 
 		[Test]

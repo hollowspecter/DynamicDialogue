@@ -10,7 +10,7 @@ namespace DynamicDialogue.Core
 	/// </summary>
 	internal abstract class Consequence
 	{
-		public abstract void Execute(IVariableStorage storage);
+		public abstract void Execute(Machine machine);
 	}
 
 	/// <summary>
@@ -19,6 +19,7 @@ namespace DynamicDialogue.Core
 	/// </summary>
 	internal class StorageChange : Consequence
 	{
+		public delegate void StorageChangeHandler(IReadOnlyDictionary<string, object> changes);
 		private Dictionary<string, object> changes = new Dictionary<string, object>();
 
 		public StorageChange AddChange(string key, bool value)
@@ -39,28 +40,18 @@ namespace DynamicDialogue.Core
 			return this;
 		}
 
-		public override void Execute(IVariableStorage storage)
+		public override void Execute(Machine machine)
 		{
-			foreach (var change in changes)
-			{
-				if (change.Value is bool)
-					storage.SetValue(change.Key, (bool)change.Value);
-				else if (change.Value is float)
-					storage.SetValue(change.Key, (float)change.Value);
-				else if (change.Value is string)
-					storage.SetValue(change.Key, (string)change.Value);
-			}
+			machine.StorageChangeHandler.Invoke(changes);
 		}
 	}
 
 	/// <summary>
 	/// Consequence that outputs text
-	/// 
-	/// TODO: how does the text response trigger something
-	///		  that actually can be implemented very differently?
 	/// </summary>
 	internal class TextResponse : Consequence
 	{
+		public delegate void TestResponseHandler(string responseId);
 		private string responseId;
 
 		public TextResponse(string responseId)
@@ -68,34 +59,48 @@ namespace DynamicDialogue.Core
 			this.responseId = responseId;
 		}
 
-		public override void Execute(IVariableStorage storage)
+		public override void Execute(Machine machine)
 		{
-			Trace.WriteLine(responseId);
+			machine.TextResponseHandler.Invoke(responseId);
+		}
+	}
+
+	internal struct Trigger
+	{
+		public Trigger(string to, string conceptName)
+		{
+			To = to;
+			ConceptName = conceptName;
+		}
+
+		public string To
+		{
+			get; private set;
+		}
+
+		public string ConceptName
+		{
+			get; private set;
 		}
 	}
 
 	/// <summary>
 	/// Consequence, that triggers a response to the current text
-	/// 
-	/// TODO: how does the text response trigger something
-	///	      that actually can be implemented very differently?
 	/// </summary>
 	internal class TriggerResponse : Consequence
 	{
-		private string from;
-		private string to;
-		private string conceptName;
+		public delegate void TriggerResponseHandler(Trigger trigger);
+
+		private Trigger trigger;
 
 		public TriggerResponse(string to, string conceptName)
 		{
-			this.to = to;
-			this.conceptName = conceptName;
+			trigger = new Trigger(to, conceptName);
 		}
 
-		public override void Execute(IVariableStorage storage)
+		public override void Execute(Machine machine)
 		{
-			storage.TryGetValue(IVariableStorage.From, out from);
-			Trace.WriteLine($"Trigger executed. From = {from}, To = {to}, conceptName = {conceptName}");
+			machine.TriggerResponseHandler.Invoke(trigger);
 		}
 	}
 }

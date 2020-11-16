@@ -20,6 +20,10 @@ namespace DynamicDialogue
 			Failure
 		}
 
+		internal StorageChange.StorageChangeHandler StorageChangeHandler;
+		internal TextResponse.TestResponseHandler TextResponseHandler;
+		internal TriggerResponse.TriggerResponseHandler TriggerResponseHandler;
+
 		private Dictionary<string, Pack> packDictionairy = new Dictionary<string, Pack>();
 		private List<Pack> packs = new List<Pack>();
 		private List<int> searchPointers = new List<int>();

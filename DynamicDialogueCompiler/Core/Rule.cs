@@ -27,11 +27,11 @@ namespace DynamicDialogue.Core
 			return true;
 		}
 
-		public void Execute(IVariableStorage query)
+		public void Execute(Machine machine)
 		{
 			for (int i = 0; i < consequences.Count; ++i)
 			{
-				consequences[i].Execute(query);
+				consequences[i].Execute(machine);
 			}
 		}
 
