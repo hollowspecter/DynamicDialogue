@@ -30,14 +30,14 @@ namespace DynamicDialogueTest
 		[Test]
 		public void TestTalk()
 		{
-			var parser = CreateParser(File.ReadAllText(DogTalk));
+			var parser = CreateParser(File.ReadAllText(TestDataPath + DogTalk));
 			Assert.That(parser.talk().ChildCount, Is.EqualTo(6));
 		}
 
 		[Test]
 		public void TestRule()
 		{
-			var parser = CreateParser(File.ReadAllText(DogTalk));
+			var parser = CreateParser(File.ReadAllText(TestDataPath + DogTalk));
 			var ruleBody = parser.talk().rule(0).rule_body();
 			Assert.That(ruleBody.conditions().condition_statement().Length, Is.EqualTo(3));
 			Assert.That(ruleBody.rule_response().WORD().GetText(), Is.EqualTo("SeeDog"));
@@ -49,7 +49,7 @@ namespace DynamicDialogueTest
 		[Test]
 		public void TestRuleName()
 		{
-			var parser = CreateParser(File.ReadAllText(DogTalk));
+			var parser = CreateParser(File.ReadAllText(TestDataPath + DogTalk));
 			var rule = parser.talk().rule(0);
 			Assert.AreEqual("PersonA_SeesDog", rule.WORD().GetText());
 		}
@@ -57,7 +57,7 @@ namespace DynamicDialogueTest
 		[Test]
 		public void TestConditionStatements()
 		{
-			var parser = CreateParser(File.ReadAllText(DogTalk));
+			var parser = CreateParser(File.ReadAllText(TestDataPath + DogTalk));
 			var conditions = parser.talk().rule(0).rule_body().conditions();
 			Assert.That(conditions.condition_statement(0).GetText(), Is.EqualTo("ConceptSeeDog"));
 			Assert.That(conditions.condition_statement(1).GetText(), Is.EqualTo("DogSeen=2"));
@@ -67,7 +67,7 @@ namespace DynamicDialogueTest
 		[Test]
 		public void TestEqualsStatement()
 		{
-			var parser = CreateParser(File.ReadAllText(DogTalk));
+			var parser = CreateParser(File.ReadAllText(TestDataPath + DogTalk));
 			var equalsStatement = parser.talk().rule(0).rule_body().conditions().condition_statement(1).equals_statement();
 			Assert.That(equalsStatement.WORD(0).GetText(), Is.EqualTo("DogSeen"));
 			Assert.That(int.Parse(equalsStatement.NUMBER().GetText()), Is.EqualTo(2));
@@ -76,7 +76,7 @@ namespace DynamicDialogueTest
 		[Test]
 		public void TestResponse()
 		{
-			var parser = CreateParser(File.ReadAllText(DogTalk));
+			var parser = CreateParser(File.ReadAllText(TestDataPath + DogTalk));
 			var firstResponse = parser.talk().response(0).response_body();
 			Assert.That(firstResponse.ChildCount, Is.EqualTo(4));
 		}
@@ -84,7 +84,7 @@ namespace DynamicDialogueTest
 		[Test]
 		public void TestLine()
 		{
-			var parser = CreateParser(File.ReadAllText(DogTalk));
+			var parser = CreateParser(File.ReadAllText(TestDataPath + DogTalk));
 			var firstResponse = parser.talk().response(0).response_body();
 			Assert.AreEqual("\"that's a cute doggo\"", firstResponse.line(0).TEXT().GetText());
 			Assert.AreEqual("\"awww so cute!!!\"", firstResponse.line(1).TEXT().GetText());

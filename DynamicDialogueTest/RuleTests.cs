@@ -11,7 +11,7 @@ namespace DynamicDialogueTest
 		[Test]
 		public void TestRulesSorted()
 		{
-			Compiler.CompileFile(DogTalk, out var pack);
+			Compiler.CompileFile(TestDataPath + DogTalk, out var pack);
 
 			for (int i = 1; i < pack.RuleCount; ++i)
 			{

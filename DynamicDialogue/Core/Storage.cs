@@ -8,9 +8,6 @@ namespace DynamicDialogue.Core
 	/// </summary>
 	public interface IVariableStorage
 	{
-		public static string Is = "Is";
-		public static string From = "From";
-
 		void SetValue(string variableName, string stringValue);
 		void SetValue(string variableName, float floatValue);
 		void SetValue(string variableName, bool boolValue);
@@ -24,6 +21,10 @@ namespace DynamicDialogue.Core
 	/// </summary>
 	public class MemoryVariableStorage : IVariableStorage
 	{
+		// TODO move those somewhere else?
+		public static string Is = "Is";
+		public static string From = "From";
+
 		private Dictionary<string, object> variables = new Dictionary<string, object>();
 
 		/// <inheritdoc/>

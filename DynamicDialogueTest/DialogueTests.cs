@@ -113,7 +113,7 @@ namespace DynamicDialogueTest
 		public void TestLoadProgram_Success()
 		{
 			Dialogue dialogue = new Dialogue();
-			dialogue.LoadProgram(DogTalk);
+			dialogue.LoadProgram(TestDataPath + DogTalk);
 		}
 
 		[TestCase("")]

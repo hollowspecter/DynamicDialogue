@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Runtime.CompilerServices;
 
 [assembly: InternalsVisibleTo("DynamicDialogueTest")]
+[assembly: InternalsVisibleTo("DynamicDialogueTest2")]
 namespace DynamicDialogue.Core
 {
 	/// <summary>

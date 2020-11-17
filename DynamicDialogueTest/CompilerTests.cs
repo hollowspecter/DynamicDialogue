@@ -38,7 +38,7 @@ namespace DynamicDialogueTest
 		public string TestLineVisitor(int lineIndex)
 		{
 			// Arrange			
-			var parser = CreateParser(File.ReadAllText(DogTalk));
+			var parser = CreateParser(File.ReadAllText(TestDataPath + DogTalk));
 			LineVisitor visitor = new LineVisitor();
 
 			// Act & Assert
@@ -48,7 +48,7 @@ namespace DynamicDialogueTest
 		[Test]
 		public void TestResponseVisitor()
 		{
-			var parser = CreateParser(File.ReadAllText(DogTalk));
+			var parser = CreateParser(File.ReadAllText(TestDataPath + DogTalk));
 			ResponseVisitor visitor = new ResponseVisitor();
 
 			Response response = parser.talk().response(0).Accept(visitor);
@@ -60,7 +60,7 @@ namespace DynamicDialogueTest
 		[Test]
 		public void TestEqualsStatement_Float()
 		{
-			var parser = CreateParser(File.ReadAllText(DogTalk));
+			var parser = CreateParser(File.ReadAllText(TestDataPath + DogTalk));
 
 			// Dogseen=0
 			EqualsStatement statement = new EqualsStatement(parser.talk().rule(0).rule_body().conditions().condition_statement(1).equals_statement());
@@ -75,7 +75,7 @@ namespace DynamicDialogueTest
 		[Test]
 		public void TestEqualsStatement_String()
 		{
-			var parser = CreateParser(File.ReadAllText(DogTalk));
+			var parser = CreateParser(File.ReadAllText(TestDataPath + DogTalk));
 
 			// Is=@A
 			EqualsStatement statement = new EqualsStatement(parser.talk().rule(0).rule_body().conditions().condition_statement(2).equals_statement());
@@ -90,7 +90,7 @@ namespace DynamicDialogueTest
 		[Test]
 		public void TestEqualsStatement_Bool()
 		{
-			var parser = CreateParser(File.ReadAllText(DogTalk));
+			var parser = CreateParser(File.ReadAllText(TestDataPath + DogTalk));
 
 			// Dead=true
 			EqualsStatement statement = new EqualsStatement(parser.talk().rule(1).rule_body().conditions().condition_statement(4).equals_statement());
@@ -105,7 +105,7 @@ namespace DynamicDialogueTest
 		[Test]
 		public void TestTriggerVisitor()
 		{
-			var parser = CreateParser(File.ReadAllText(DogTalk));
+			var parser = CreateParser(File.ReadAllText(TestDataPath + DogTalk));
 			TriggerVisitor visitor = new TriggerVisitor();
 
 			Consequence trigger = parser.talk().rule(0).rule_body().Accept(visitor);
@@ -114,10 +114,10 @@ namespace DynamicDialogueTest
 
 			trigger.Execute(new Machine()
 			{
-				TriggerResponseHandler = trigger =>
+				TriggerResponseHandler = currentTrigger =>
 				{
-					Assert.AreEqual(trigger.To, "@B");
-					Assert.AreEqual(trigger.ConceptName, "CuteDog1");
+					Assert.AreEqual(currentTrigger.To, "@B");
+					Assert.AreEqual(currentTrigger.ConceptName, "CuteDog1");
 				}
 			});
 		}
@@ -125,7 +125,7 @@ namespace DynamicDialogueTest
 		[Test]
 		public void TestRememberStatementVisitor()
 		{
-			var parser = CreateParser(File.ReadAllText(DogTalk));
+			var parser = CreateParser(File.ReadAllText(TestDataPath + DogTalk));
 			StorageChange change = new StorageChange();
 			RememberStatementVisitor visitor = new RememberStatementVisitor(change);
 			parser.talk().rule(0).rule_body().remember().Accept(visitor);
@@ -144,7 +144,7 @@ namespace DynamicDialogueTest
 		[Test]
 		public void RuleResponseVisitor()
 		{
-			var parser = CreateParser(File.ReadAllText(DogTalk));
+			var parser = CreateParser(File.ReadAllText(TestDataPath + DogTalk));
 			RuleResponseVisitor visitor = new RuleResponseVisitor();
 
 			Consequence ruleResponse = parser.talk().rule(0).rule_body().rule_response().Accept(visitor);
@@ -157,7 +157,7 @@ namespace DynamicDialogueTest
 		[Test]
 		public void TestConditionVisitor_Exists()
 		{
-			var parser = CreateParser(File.ReadAllText(DogTalk));
+			var parser = CreateParser(File.ReadAllText(TestDataPath + DogTalk));
 			ConditionVisitor visitor = new ConditionVisitor();
 			IVariableStorage storage = new MemoryVariableStorage();
 			storage.SetValue("ConceptSeeDog", false);
@@ -171,7 +171,7 @@ namespace DynamicDialogueTest
 		[Test]
 		public void TestConditionVisitor_String()
 		{
-			var parser = CreateParser(File.ReadAllText(DogTalk));
+			var parser = CreateParser(File.ReadAllText(TestDataPath + DogTalk));
 			ConditionVisitor visitor = new ConditionVisitor();
 			IVariableStorage storage = new MemoryVariableStorage();
 			storage.SetValue("Is", "@A");
@@ -185,7 +185,7 @@ namespace DynamicDialogueTest
 		[Test]
 		public void TestConditionVisitor_Bool()
 		{
-			var parser = CreateParser(File.ReadAllText(DogTalk));
+			var parser = CreateParser(File.ReadAllText(TestDataPath + DogTalk));
 			ConditionVisitor visitor = new ConditionVisitor();
 			IVariableStorage storage = new MemoryVariableStorage();
 			storage.SetValue("Dead", true);
@@ -199,7 +199,7 @@ namespace DynamicDialogueTest
 		[Test]
 		public void TestConditionVisitor_Float()
 		{
-			var parser = CreateParser(File.ReadAllText(DogTalk));
+			var parser = CreateParser(File.ReadAllText(TestDataPath + DogTalk));
 			ConditionVisitor visitor = new ConditionVisitor();
 			IVariableStorage storage = new MemoryVariableStorage();
 			storage.SetValue("DogSeen", 2f);
@@ -213,7 +213,7 @@ namespace DynamicDialogueTest
 		[Test]
 		public void TestRuleVisitor_AllHandlers()
 		{
-			var parser = CreateParser(File.ReadAllText(DogTalk));
+			var parser = CreateParser(File.ReadAllText(TestDataPath + DogTalk));
 			RuleVisitor visitor = new RuleVisitor();
 			IVariableStorage query = new MemoryVariableStorage();
 			query.SetValue("ConceptSeeDog", true);
@@ -247,7 +247,7 @@ namespace DynamicDialogueTest
 		[Test]
 		public void TestCompiler()
 		{
-			var status = Compiler.CompileFile(DogTalk, out var pack);
+			var status = Compiler.CompileFile(TestDataPath + DogTalk, out var pack);
 
 			Assert.That(status, Is.EqualTo(Compiler.Status.Success));
 			Assert.That(pack.ReponseCount, Is.EqualTo(2));

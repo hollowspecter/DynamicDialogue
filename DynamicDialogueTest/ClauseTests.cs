@@ -1,5 +1,6 @@
-﻿using NUnit.Framework;
+﻿using DynamicDialogue;
 using DynamicDialogue.Core;
+using NUnit.Framework;
 
 namespace DynamicDialogueTest
 {
