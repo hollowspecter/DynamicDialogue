@@ -13,13 +13,20 @@ namespace DynamicDialogue.Core
 		public abstract void Execute(Machine machine);
 	}
 
+	#region Storage Changes / Remember
+
+	/// <summary>
+	/// TODO
+	/// </summary>
+	/// <param name="changes"></param>
+	public delegate void StorageChangeHandler(IReadOnlyDictionary<string, object> changes);
+
 	/// <summary>
 	/// A StorageChange is a type of <see cref="Consequence"/> that
 	/// changes the referenced <see cref="IVariableStorage"/>
 	/// </summary>
 	internal class StorageChange : Consequence
 	{
-		public delegate void StorageChangeHandler(IReadOnlyDictionary<string, object> changes);
 		private Dictionary<string, object> changes = new Dictionary<string, object>();
 
 		public StorageChange AddChange(string key, bool value)
@@ -46,12 +53,21 @@ namespace DynamicDialogue.Core
 		}
 	}
 
+	#endregion
+
+	#region TextResponse
+
+	/// <summary>
+	/// TODO
+	/// </summary>
+	/// <param name="responseId"></param>
+	public delegate void TextResponseHandler(string responseId);
+
 	/// <summary>
 	/// Consequence that outputs text
 	/// </summary>
 	internal class TextResponse : Consequence
 	{
-		public delegate void TestResponseHandler(string responseId);
 		private string responseId;
 
 		public TextResponse(string responseId)
@@ -65,7 +81,14 @@ namespace DynamicDialogue.Core
 		}
 	}
 
-	internal struct Trigger
+	#endregion
+
+	#region Trigger Response
+
+	/// <summary>
+	/// TODO
+	/// </summary>
+	public struct Trigger
 	{
 		public Trigger(string to, string conceptName)
 		{
@@ -85,12 +108,16 @@ namespace DynamicDialogue.Core
 	}
 
 	/// <summary>
+	/// TODO
+	/// </summary>
+	/// <param name="trigger"></param>
+	public delegate void TriggerResponseHandler(Trigger trigger);
+
+	/// <summary>
 	/// Consequence, that triggers a response to the current text
 	/// </summary>
 	internal class TriggerResponse : Consequence
 	{
-		public delegate void TriggerResponseHandler(Trigger trigger);
-
 		private Trigger trigger;
 
 		public TriggerResponse(string to, string conceptName)
@@ -103,4 +130,6 @@ namespace DynamicDialogue.Core
 			machine.TriggerResponseHandler.Invoke(trigger);
 		}
 	}
+
+	#endregion
 }

@@ -25,9 +25,10 @@ namespace DynamicDialogue.Core
 			Name = name;
 		}
 
-		public void AddLine(string text)
+		public Response AddLine(string text)
 		{
 			lines.Add(text);
+			return this;
 		}
 
 		public string GetRandomLine()

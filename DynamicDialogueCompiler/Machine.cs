@@ -2,7 +2,9 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Runtime.CompilerServices;
 
+[assembly: InternalsVisibleTo("DynamicDialogueTest")]
 namespace DynamicDialogue
 {
 	/// <summary>
@@ -11,7 +13,7 @@ namespace DynamicDialogue
 	/// Accepts Queries and returns the best rule and the best response
 	/// depending on the packs currently loaded
 	/// </summary>
-	public class Machine
+	internal class Machine
 	{
 		internal enum LoadStatus
 		{
@@ -20,9 +22,9 @@ namespace DynamicDialogue
 			Failure
 		}
 
-		internal StorageChange.StorageChangeHandler StorageChangeHandler;
-		internal TextResponse.TestResponseHandler TextResponseHandler;
-		internal TriggerResponse.TriggerResponseHandler TriggerResponseHandler;
+		internal StorageChangeHandler StorageChangeHandler;
+		internal TextResponseHandler TextResponseHandler;
+		internal TriggerResponseHandler TriggerResponseHandler;
 
 		private Dictionary<string, Pack> packDictionairy = new Dictionary<string, Pack>();
 		private List<Pack> packs = new List<Pack>();
