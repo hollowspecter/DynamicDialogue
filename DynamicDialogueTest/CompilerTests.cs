@@ -159,13 +159,12 @@ namespace DynamicDialogueTest
 		{
 			var parser = CreateParser(File.ReadAllText(TestDataPath + DogTalk));
 			ConditionVisitor visitor = new ConditionVisitor();
-			IVariableStorage storage = new MemoryVariableStorage();
-			storage.SetValue("ConceptSeeDog", false);
 
 			Clause clause = parser.talk().rule(0).rule_body().conditions().condition_statement(0).Accept(visitor);
 
 			Assert.That(clause, Is.InstanceOf(typeof(ExistsClause)));
-			Assert.True(clause.Check(storage));
+			Assert.AreEqual("ConceptSeeDog", clause.key);
+			Assert.True(clause.Check(false));
 		}
 
 		[Test]
@@ -173,13 +172,12 @@ namespace DynamicDialogueTest
 		{
 			var parser = CreateParser(File.ReadAllText(TestDataPath + DogTalk));
 			ConditionVisitor visitor = new ConditionVisitor();
-			IVariableStorage storage = new MemoryVariableStorage();
-			storage.SetValue("Is", "@A");
 
 			Clause clause = parser.talk().rule(0).rule_body().conditions().condition_statement(2).Accept(visitor);
 
 			Assert.That(clause, Is.InstanceOf(typeof(StringClause)));
-			Assert.True(clause.Check(storage));
+			Assert.AreEqual("Is", clause.key);
+			Assert.True(clause.Check("@A"));
 		}
 
 		[Test]
@@ -187,13 +185,12 @@ namespace DynamicDialogueTest
 		{
 			var parser = CreateParser(File.ReadAllText(TestDataPath + DogTalk));
 			ConditionVisitor visitor = new ConditionVisitor();
-			IVariableStorage storage = new MemoryVariableStorage();
-			storage.SetValue("Dead", true);
 
 			Clause clause = parser.talk().rule(1).rule_body().conditions().condition_statement(4).Accept(visitor);
 
 			Assert.That(clause, Is.InstanceOf(typeof(BoolClause)));
-			Assert.True(clause.Check(storage));
+			Assert.AreEqual("Dead", clause.key);
+			Assert.True(clause.Check(true));
 		}
 
 		[Test]
@@ -201,13 +198,12 @@ namespace DynamicDialogueTest
 		{
 			var parser = CreateParser(File.ReadAllText(TestDataPath + DogTalk));
 			ConditionVisitor visitor = new ConditionVisitor();
-			IVariableStorage storage = new MemoryVariableStorage();
-			storage.SetValue("DogSeen", 2f);
 
 			Clause clause = parser.talk().rule(0).rule_body().conditions().condition_statement(1).Accept(visitor);
 
 			Assert.That(clause, Is.InstanceOf(typeof(FloatClause)));
-			Assert.True(clause.Check(storage));
+			Assert.AreEqual("DogSeen", clause.key);
+			Assert.True(clause.Check(2f));
 		}
 
 		[Test]
@@ -241,7 +237,7 @@ namespace DynamicDialogueTest
 				}
 			});
 
-			Assert.True(rule.Check(query));
+			Assert.True(rule.Check(new IVariableStorage[] { query }));
 		}
 
 		[Test]

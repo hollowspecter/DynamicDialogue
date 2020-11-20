@@ -108,14 +108,5 @@ namespace DynamicDialogue.Core
 			responseList.Add(response);
 			return this;
 		}
-
-		/// <summary>
-		/// TODO
-		/// </summary>
-		/// <param name="query"></param>
-		public void Match(IVariableStorage query)
-		{
-			throw new NotImplementedException();
-		}
 	}
 }

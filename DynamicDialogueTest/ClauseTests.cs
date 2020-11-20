@@ -31,11 +31,15 @@ namespace DynamicDialogueTest
 		[TestCase("asd", ExpectedResult = false)]
 		public bool TestExistsClause(string key)
 		{
-			// Arrange
 			Clause clause = new ExistsClause(key);
-
-			// Act
-			return clause.Check(storage);
+			if (storage.TryGetValue(key, out object result))
+			{
+				return clause.Check(result);
+			}
+			else
+			{
+				return false;
+			}
 		}
 
 		[TestCase("Is", "@Vivi", ExpectedResult = true)]
@@ -46,7 +50,14 @@ namespace DynamicDialogueTest
 		public bool TestStringClause(string key, string compareTo)
 		{
 			Clause clause = new StringClause(key, compareTo);
-			return clause.Check(storage);
+			if (storage.TryGetValue(key, out object result))
+			{
+				return clause.Check(result);
+			}
+			else
+			{
+				return false;
+			}
 		}
 
 		[TestCase("IsAlive", true, ExpectedResult = true)]
@@ -56,7 +67,14 @@ namespace DynamicDialogueTest
 		public bool TestBoolClause(string key, bool compareTo)
 		{
 			Clause clause = new BoolClause(key, compareTo);
-			return clause.Check(storage);
+			if (storage.TryGetValue(key, out object result))
+			{
+				return clause.Check(result);
+			}
+			else
+			{
+				return false;
+			}
 		}
 
 		[TestCase("ConceptSeeDog", 0f, ExpectedResult = true)]
@@ -65,7 +83,16 @@ namespace DynamicDialogueTest
 		[TestCase("ConceptSeeCat", 1.001f, ExpectedResult = false)]
 		public bool TestFloatClauseEquals(string key, float compareTo)
 		{
-			return new FloatClause(key, FloatClause.CompareMode.EQUAL_TO, compareTo).Check(storage);
+			Clause clause = new FloatClause(key, FloatClause.CompareMode.EQUAL_TO, compareTo);
+
+			if (storage.TryGetValue(key, out object result))
+			{
+				return clause.Check(result);
+			}
+			else
+			{
+				return false;
+			}
 		}
 
 		[TestCase("ConceptSeeDog", 0.1f, ExpectedResult = true)]
@@ -73,7 +100,16 @@ namespace DynamicDialogueTest
 		[TestCase("ConceptSeeDog", -0.1f, ExpectedResult = false)]
 		public bool TestFloatClauseEqualOrLess(string key, float compareTo)
 		{
-			return new FloatClause(key, FloatClause.CompareMode.EQUAL_OR_LESS_THAN, compareTo).Check(storage);
+			Clause clause = new FloatClause(key, FloatClause.CompareMode.EQUAL_OR_LESS_THAN, compareTo);
+
+			if (storage.TryGetValue(key, out object result))
+			{
+				return clause.Check(result);
+			}
+			else
+			{
+				return false;
+			}
 		}
 
 		[TestCase("ConceptSeeDog", -0.1f, ExpectedResult = true)]
@@ -81,7 +117,16 @@ namespace DynamicDialogueTest
 		[TestCase("ConceptSeeDog", 0.1f, ExpectedResult = false)]
 		public bool TestFloatClauseEqualOrGreater(string key, float compareTo)
 		{
-			return new FloatClause(key, FloatClause.CompareMode.EQUAL_OR_GREATER_THAN, compareTo).Check(storage);
+			Clause clause = new FloatClause(key, FloatClause.CompareMode.EQUAL_OR_GREATER_THAN, compareTo);
+
+			if (storage.TryGetValue(key, out object result))
+			{
+				return clause.Check(result);
+			}
+			else
+			{
+				return false;
+			}
 		}
 	}
 }

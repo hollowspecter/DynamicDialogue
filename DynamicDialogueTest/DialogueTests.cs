@@ -160,7 +160,7 @@ namespace DynamicDialogueTest
 				.AddPack(new Pack("packname")
 				.AddRule(new Rule()
 				.AddCondition(new ExistsClause(key))));
-			dialogue.Query(query);
+			dialogue.Query(new IVariableStorage[] { query });
 		}
 
 		[Test]

@@ -39,15 +39,27 @@ namespace DynamicDialogue
 		/// <summary>
 		/// TODO
 		/// </summary>
-		public StorageChangeHandler StorageChangeHandler => machine.StorageChangeHandler;
+		public StorageChangeHandler StorageChangeHandler
+		{
+			get => machine.StorageChangeHandler;
+			set => machine.StorageChangeHandler = value;
+		}
 		/// <summary>
-		/// 
+		/// TODO
 		/// </summary>
-		public TextResponseHandler TextResponseHandler => machine.TextResponseHandler;
+		public TextResponseHandler TextResponseHandler
+		{
+			get => machine.TextResponseHandler;
+			set => machine.TextResponseHandler = value;
+		}
 		/// <summary>
-		/// 
+		/// TODO
 		/// </summary>
-		public TriggerResponseHandler TriggerResponseHandler => machine.TriggerResponseHandler;
+		public TriggerResponseHandler TriggerResponseHandler
+		{
+			get => machine.TriggerResponseHandler;
+			set => machine.TriggerResponseHandler = value;
+		}
 
 		public Dialogue()
 		{
@@ -120,7 +132,7 @@ namespace DynamicDialogue
 			machine.UnloadAllPacks();
 		}
 
-		public void Query(IVariableStorage query)
+		public void Query(IVariableStorage[] query)
 		{
 			if (query == null)
 			{

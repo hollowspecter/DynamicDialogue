@@ -160,7 +160,7 @@ namespace DynamicDialogueTest
 			MemoryVariableStorage query = new MemoryVariableStorage();
 			query.SetValue(existsClauseKey, true);
 
-			Assert.True(machine.TryQueryRule(query, out var resultRule));
+			Assert.True(machine.TryQueryRule(new IVariableStorage[] { query }, out var resultRule));
 			Assert.That(resultRule, Is.EqualTo(rule_oneCondition));
 		}
 
@@ -173,7 +173,7 @@ namespace DynamicDialogueTest
 			query.SetValue(existsClauseKey, true);
 			query.SetValue(existsClauseKey2, true);
 
-			Assert.True(machine.TryQueryRule(query, out var resultRule));
+			Assert.True(machine.TryQueryRule(new IVariableStorage[] { query }, out var resultRule));
 			Assert.That(resultRule, Is.EqualTo(rule_twoConditions));
 		}
 
@@ -189,7 +189,7 @@ namespace DynamicDialogueTest
 			query.SetValue(existsClauseKey3, true);
 			Rule resultRule;
 
-			Assert.True(machine.TryQueryRule(query, out resultRule));
+			Assert.True(machine.TryQueryRule(new IVariableStorage[] { query }, out resultRule));
 			Assert.That(resultRule, Is.EqualTo(rule_threeConditions));
 		}
 
@@ -200,7 +200,7 @@ namespace DynamicDialogueTest
 			machine.LoadPack(pack1);
 			MemoryVariableStorage query = new MemoryVariableStorage();
 
-			Assert.False(machine.TryQueryRule(query, out var resultRule));
+			Assert.False(machine.TryQueryRule(new IVariableStorage[] { query }, out var resultRule));
 			Assert.IsNull(resultRule);
 		}
 

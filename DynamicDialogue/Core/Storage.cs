@@ -8,6 +8,17 @@ namespace DynamicDialogue.Core
 	/// </summary>
 	public interface IVariableStorage
 	{
+		/// <summary>
+		/// Must return sorted key.
+		/// </summary>
+		/// <param name="index"></param>
+		/// <returns></returns>
+		string this[int index] { get; }
+		int Count
+		{
+			get;
+		}
+
 		void SetValue(string variableName, string stringValue);
 		void SetValue(string variableName, float floatValue);
 		void SetValue(string variableName, bool boolValue);
@@ -25,7 +36,10 @@ namespace DynamicDialogue.Core
 		public static string Is = "Is";
 		public static string From = "From";
 
-		private Dictionary<string, object> variables = new Dictionary<string, object>();
+		private SortedList<string, object> variables = new SortedList<string, object>();
+
+		public string this[int index] => variables.Keys[index];//TODO test if this works
+		public int Count => variables.Count;//TODO test this property
 
 		/// <inheritdoc/>
 		public void SetValue(string variableName, string stringValue)

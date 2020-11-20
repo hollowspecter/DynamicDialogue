@@ -127,7 +127,7 @@ namespace DynamicDialogue
 		/// <param name="query">The storage containing all data for the query</param>
 		/// <param name="rule">On return, contains the best rule.</param>
 		/// <returns>True, when a rule was successfully matched, false if not.</returns>
-		internal bool TryQueryRule(IVariableStorage query, out Rule rule)
+		internal bool TryQueryRule(IVariableStorage[] query, out Rule rule)
 		{
 			if (conditionCountsDirty)
 			{
