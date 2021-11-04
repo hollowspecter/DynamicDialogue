@@ -1,6 +1,6 @@
 ANTI-CAPITALIST SOFTWARE LICENSE (v 1.4)
 
-Copyright © 2020 Vivien Baguio
+Copyright © 2021 Finley Baguio
 
 This is anti-capitalist software, released for free use by individuals and organizations that do not operate by capitalist principles.
 
